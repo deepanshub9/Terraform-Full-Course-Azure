@@ -6,7 +6,7 @@ variable "environment" {
 variable "location" {
   description = "Azure region for resources"
   type        = string
-  default     = "eastus"
+  default     = "France Central"
 }
 
 variable "resource_group_name" {

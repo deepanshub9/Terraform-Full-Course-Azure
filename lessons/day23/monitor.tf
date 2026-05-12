@@ -1,16 +1,16 @@
 resource "azurerm_monitor_action_group" "main" {
-  name                = "example-actiongroup"
+  name                = "dev-actiongroup"
   resource_group_name = azurerm_resource_group.app_rg.name
-  short_name          = "exampleact"
+  short_name          = "devact"
 
   email_receiver {
-    name = "sendtoadmin"
+    name          = "sendtoadmin"
     email_address = var.email
   }
 }
 
 resource "azurerm_monitor_metric_alert" "example" {
-  name                = "example-metricalert"
+  name                = "dev-cpu-metricalert"
   resource_group_name = azurerm_resource_group.app_rg.name
   scopes              = [azurerm_linux_virtual_machine.demo_vm.id]
   description         = "Action will be triggered when CPU is greater than 60."
@@ -31,7 +31,7 @@ resource "azurerm_monitor_metric_alert" "example" {
 }
 
 resource "azurerm_monitor_metric_alert" "disk" {
-  name                = "example-metricalert1"
+  name                = "dev-disk-metricalert"
   resource_group_name = azurerm_resource_group.app_rg.name
   scopes              = [azurerm_linux_virtual_machine.demo_vm.id]
   description         = "Action will be triggered when Free disk space is less than 20."

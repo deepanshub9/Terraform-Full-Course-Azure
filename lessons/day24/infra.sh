@@ -15,7 +15,7 @@ fi
 # Set variables
 DAY="day24"
 RG_NAME="${DAY}-rg"
-LOCATION="eastus"
+LOCATION="France Central"
 VNET_NAME="${DAY}-vnet"
 WEBAPP_NAME="${DAY}-webapp-${RANDOM}"
 

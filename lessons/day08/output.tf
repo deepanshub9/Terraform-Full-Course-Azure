@@ -3,5 +3,5 @@ output "rgname" {
 }
 
 output "storage_name" {
-  value = [for i in azurerm_storage_account.example: i.name]
+  value = [for i in azurerm_storage_account.example : i.name]
 }

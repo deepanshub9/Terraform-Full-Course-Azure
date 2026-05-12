@@ -3,7 +3,7 @@
 This project demonstrates a modern three-tier architecture:
 
 1. **Presentation Layer (Frontend)**: Node.js/Express server serving a JavaScript frontend
-2. **Business Logic Layer (Backend)**: Go API service 
+2. **Business Logic Layer (Backend)**: Go API service
 3. **Data Layer**: PostgreSQL database
 
 ## Architecture Overview
@@ -14,7 +14,7 @@ This project demonstrates a modern three-tier architecture:
 │    (Node.js)    │────▶│      (Go)       │────▶│   (PostgreSQL)  │
 │   Port: 3000    │     │   Port: 8080    │     │    Port: 5432   │
 └─────────────────┘     └─────────────────┘     └─────────────────┘
-                 
+
 ```
 
 ## Running the Application
@@ -31,7 +31,6 @@ docker-compose up -d
 - **Frontend**: http://localhost:3000
 - **Backend API**: http://localhost:8080
 
-
 ## Developing Components Individually
 
 ### Frontend Development
@@ -43,6 +42,7 @@ npm start
 ```
 
 The frontend is a Node.js/Express application that:
+
 - Serves static files from the `/public` directory
 - Provides API proxying to the backend
 - Handles all user interactions
@@ -56,6 +56,7 @@ go run main.go
 ```
 
 The backend is a Go API service that:
+
 - Provides JSON REST API endpoints
 - Connects to the PostgreSQL database
 - Implements business logic
@@ -64,6 +65,7 @@ The backend is a Go API service that:
 ### Data Layer
 
 The PostgreSQL database:
+
 - Stores goal tracking data
 - Initializes with the schema defined in `docker-local-deployment/database/init.sql`
 
@@ -84,30 +86,35 @@ The PostgreSQL database:
 - `DELETE /api/goals/:id` - Proxy to backend's DELETE /goals/:id
 
 ## Local Deployment using Docker Compose
+
 ### Prerequisites
+
 - Docker (version 20.10+)
 - Docker Compose (version 2.0+)
+
 ### Step 1: Go to the docker-local-deployment directory
+
 ```bash
 cd docker-local-deployment
 ```
+
 ### Step 2: Copy paste the below command to run the application
+
 ```bash
 docker-compose up -d
 ```
+
 ### Step 3: Access the application
+
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8080
-- Database: http://localhost:5432 (use pgAdmin or any other client to connect ) 
-
-
+- Database: http://localhost:5432 (use pgAdmin or any other client to connect )
 
 # 3-Tier Application Infrastructure on Azure
 
 This Terraform project deploys a secure and scalable 3-tier application infrastructure in Azure, consisting of frontend, backend, and database tiers.
 
 ## Architecture Overview
-
 
 ### Components
 
@@ -150,16 +157,19 @@ Before deploying infrastructure with Terraform, you need to create a service pri
 ### Create Service Principal
 
 1. **Login to Azure CLI:**
+
    ```bash
    az login
    ```
 
 2. **Get your subscription ID:**
+
    ```bash
    az account show --query id --output tsv
    ```
 
 3. **Create a service principal with Contributor role:**
+
    ```bash
    az ad sp create-for-rbac --name "terraform-sp" \
      --role="Contributor" \
@@ -167,6 +177,7 @@ Before deploying infrastructure with Terraform, you need to create a service pri
    ```
 
    This command will output JSON similar to:
+
    ```json
    {
      "appId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -177,6 +188,7 @@ Before deploying infrastructure with Terraform, you need to create a service pri
    ```
 
 4. **Set environment variables for Terraform authentication:**
+
    ```bash
    export ARM_CLIENT_ID="<appId>"
    export ARM_CLIENT_SECRET="<password>"
@@ -185,6 +197,7 @@ Before deploying infrastructure with Terraform, you need to create a service pri
    ```
 
    **Alternative: Create a `.env` file (recommended for persistent use):**
+
    ```bash
    cat << EOF > .env
    export ARM_CLIENT_ID="<appId>"
@@ -192,7 +205,7 @@ Before deploying infrastructure with Terraform, you need to create a service pri
    export ARM_SUBSCRIPTION_ID="<YOUR_SUBSCRIPTION_ID>"
    export ARM_TENANT_ID="<tenant>"
    EOF
-   
+
    # Source the environment variables
    source .env
    ```
@@ -214,7 +227,6 @@ Before deploying infrastructure with Terraform, you need to create a service pri
 - **Use least privilege**: The Contributor role provides broad permissions. For production, consider creating custom roles with minimal required permissions
 - **Rotate credentials regularly**: Service principal secrets should be rotated periodically
 - **Use Azure Key Vault**: For production deployments, consider storing service principal credentials in Azure Key Vault
-
 
 ## Project Structure
 
@@ -246,7 +258,7 @@ Create an Azure Storage Account for storing Terraform state:
 az login
 
 # Create Resource Group for Terraform state
-az group create --name tfstate-rg --location eastus2
+az group create --name tfstate-rg --location France Central
 
 # Create Storage Account
 az storage account create --name tfstate<unique_suffix> --resource-group tfstate-rg --sku Standard_LRS --encryption-services blob
@@ -296,6 +308,7 @@ terraform apply \
 ```
 
 This command will:
+
 - Deploy all infrastructure components including compute resources
 - Store your Docker Hub Personal Access Token securely in Azure Key Vault
 - Configure the VM Scale Sets to pull images from Docker Hub
@@ -323,11 +336,12 @@ After deployment completes, access your application:
   echo "PostgreSQL Server: $(terraform output -raw postgres_server_fqdn)"
   echo "PostgreSQL Replica: $(terraform output -raw postgres_replica_name)"
   ```
+
 - SSH into the Bastion host to access the backend and frontend:
 
   ```bash
   terraform output -raw frontend_ssh_private_key > frontend_key.pem
-  terraform output -raw backend_ssh_private_key > backend_key.pem 
+  terraform output -raw backend_ssh_private_key > backend_key.pem
   ```
 
 ## Infrastructure Management
@@ -355,7 +369,9 @@ To destroy the infrastructure when no longer needed:
 ```bash
 terraform destroy -auto-approve
 ```
-*If You get a error in the destrucion process rerun the above command again*
+
+_If You get a error in the destrucion process rerun the above command again_
+
 ## Contributing
 
 Please follow the standard Git workflow:

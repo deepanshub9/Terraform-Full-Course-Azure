@@ -1,38 +1,38 @@
 variable "environment" {
-    type = string
-    description = "the env type"
-    default = "staging"
+  type        = string
+  description = "the env type"
+  default     = "staging"
 }
 
 variable "storage_disk" {
-    type = number
-    description = "the storage disk size of os"
-    default = 80
-  
+  type        = number
+  description = "the storage disk size of os"
+  default     = 80
+
 }
 
 variable "is_delete" {
-  type = bool
+  type        = bool
   description = "the default behavior to os disk upon vm termination"
-  default = true
+  default     = true
 }
 
 variable "allowed_locations" {
-    type = list(string)
-    description = "list of allowed locations"
-    default = [ "West Europe", "North Europe" , "East US" ]
-  
+  type        = list(string)
+  description = "list of allowed locations"
+  default     = ["France Central", "France Central", "France Central"]
+
 }
 
 variable "resource_tags" {
-    type = map(string)
-    description = "tags to apply to the resources"
-    default = {
-      "environment" = "staging"
-      "managed_by" = "terraform"
-      "department" = "devops"
-    }
-  
+  type        = map(string)
+  description = "tags to apply to the resources"
+  default = {
+    "environment" = "staging"
+    "managed_by"  = "terraform"
+    "department"  = "devops"
+  }
+
 }
 
 # Tuple type
@@ -52,18 +52,18 @@ variable "allowed_vm_sizes" {
 # Object type
 variable "vm_config" {
   type = object({
-    size         = string
-    publisher    = string
-    offer        = string
-    sku          = string
-    version      = string
+    size      = string
+    publisher = string
+    offer     = string
+    sku       = string
+    version   = string
   })
   description = "Virtual machine configuration"
   default = {
-    size         = "Standard_DS1_v2"
-    publisher    = "Canonical"
-    offer        = "0001-com-ubuntu-server-jammy"
-    sku          = "22_04-lts"
-    version      = "latest"
+    size      = "Standard_DS1_v2"
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-jammy"
+    sku       = "22_04-lts"
+    version   = "latest"
   }
 }

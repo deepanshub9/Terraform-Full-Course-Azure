@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "rg" {
   name     = "day18-rg"
-  location = "canada central"
+  location = "France Central"
 }
 
 resource "azurerm_storage_account" "sa" {
@@ -12,7 +12,7 @@ resource "azurerm_storage_account" "sa" {
 }
 
 resource "azurerm_service_plan" "example" {
-  name                = "example-app-service-plan"
+  name                = "dev-func-app-service-plan"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   os_type             = "Linux"
@@ -20,16 +20,16 @@ resource "azurerm_service_plan" "example" {
 }
 
 resource "azurerm_linux_function_app" "example" {
-  name                = "piyush-function-qr"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+  name                       = "dev-function-qr"
+  resource_group_name        = azurerm_resource_group.rg.name
+  location                   = azurerm_resource_group.rg.location
   storage_account_name       = azurerm_storage_account.sa.name
   storage_account_access_key = azurerm_storage_account.sa.primary_access_key
   service_plan_id            = azurerm_service_plan.example.id
 
   site_config {
-   application_stack {
-    node_version = 18
-   }    
+    application_stack {
+      node_version = 18
+    }
   }
 }

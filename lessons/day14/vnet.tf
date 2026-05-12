@@ -2,9 +2,9 @@ resource "random_pet" "lb_hostname" {
 }
 
 resource "azurerm_resource_group" "rg" {
-    name = "day14-rg"
-    location = "canadacentral"
-  
+  name     = "day14-rg"
+  location = "France Central"
+
 }
 
 
@@ -97,7 +97,7 @@ resource "azurerm_lb" "example" {
 resource "azurerm_lb_backend_address_pool" "bepool" {
   name            = "myBackendAddressPool"
   loadbalancer_id = azurerm_lb.example.id
- 
+
 }
 
 #set up load balancer rule from azurerm_lb.example frontend ip to azurerm_lb_backend_address_pool.bepool backend ip port 80 to port 80

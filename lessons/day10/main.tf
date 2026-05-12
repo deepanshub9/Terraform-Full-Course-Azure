@@ -1,13 +1,13 @@
-resource "azurerm_resource_group" "rg" {
-  name     = "day10-rg"
-  location = "westus2"
+resource "azurerm_resource_group" "learning_rg" {
+  name     = "dev-learning-rg"
+  location = "France Central"
 }
 
 # Create Network Security Group
-resource "azurerm_network_security_group" "example" {
-  name                = var.environment == "dev" ? "dev-nsg" : "stage-nsg"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+resource "azurerm_network_security_group" "learning_nsg" {
+  name                = "dev-learning-nsg"
+  location            = azurerm_resource_group.learning_rg.location
+  resource_group_name = azurerm_resource_group.learning_rg.name
 
   # Here's where we need the dynamic block
   dynamic "security_rule" {
@@ -18,19 +18,19 @@ resource "azurerm_network_security_group" "example" {
       direction                  = "Inbound"
       access                     = "Allow"
       protocol                   = "Tcp"
-      source_port_range         = "*"
-      destination_port_range    = security_rule.value.destination_port_range
-      source_address_prefix     = "*"
+      source_port_range          = "*"
+      destination_port_range     = security_rule.value.destination_port_range
+      source_address_prefix      = "*"
       destination_address_prefix = "*"
-      description               = security_rule.value.description
+      description                = security_rule.value.description
     }
   }
 }
 
 # Output the security rules
 output "security_rules" {
-  value = azurerm_network_security_group.example.security_rule
-}  
+  value = azurerm_network_security_group.learning_nsg.security_rule
+}
 
 output "env" {
   value = var.environment
@@ -38,7 +38,7 @@ output "env" {
 
 
 output "demo" {
-  value = [ for count in local.nsg_rules : count.description ]
+  value = [for count in local.nsg_rules : count.description]
 }
 
 output "splat" {

@@ -1,49 +1,49 @@
 terraform {
   required_providers {
     azurerm = {
-        source = "hashicorp/azurerm"
-        version = "~> 4.8.0"
+      source  = "hashicorp/azurerm"
+      version = "~> 4.27.0"
     }
   }
   backend "azurerm" {
-    resource_group_name  = "tfstate-day04"  # Can be passed via `-backend-config=`"resource_group_name=<resource group name>"` in the `init` command.
-    storage_account_name = "day0417691"                      # Can be passed via `-backend-config=`"storage_account_name=<storage account name>"` in the `init` command.
-    container_name       = "tfstate"                       # Can be passed via `-backend-config=`"container_name=<container name>"` in the `init` command.
-    key                  = "dev.terraform.tfstate"        # Can be passed via `-backend-config=`"key=<blob key name>"` in the `init` command.
+    resource_group_name  = "tfstate-day04"         # Can be passed via `-backend-config=`"resource_group_name=<resource group name>"` in the `init` command.
+    storage_account_name = "tfstateday0417691"     # Can be passed via `-backend-config=`"storage_account_name=<storage account name>"` in the `init` command.
+    container_name       = "tfstate"               # Can be passed via `-backend-config=`"container_name=<container name>"` in the `init` command.
+    key                  = "dev.terraform.tfstate" # Can be passed via `-backend-config=`"key=<blob key name>"` in the `init` command.
   }
-  required_version = ">=1.9.0"
+  required_version = ">= 1.5.0"
 }
 
 provider "azurerm" {
-    features {
-      
-    }
-  
+  features {
+
+  }
+
 }
 variable "environment" {
-    type = string
-    description = "the env type"
-    default = "staging"
-  
+  type        = string
+  description = "the env type"
+  default     = "dev"
+
 }
 
 locals {
   common_tags = {
     environment = "dev"
-    lob = "banking"
-    stage = "alpha"
+    lob         = "banking"
+    stage       = "alpha"
   }
 }
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West Europe"
+resource "azurerm_resource_group" "learning_rg" {
+  name     = "dev-learning-rg"
+  location = "France Central"
 }
 
-resource "azurerm_storage_account" "example" {
- 
-  name                     = "techtutorial101"
-  resource_group_name      = azurerm_resource_group.example.name
-  location                 = azurerm_resource_group.example.location # implicit dependency
+resource "azurerm_storage_account" "learning_sa" {
+
+  name                     = "devlearningsa"
+  resource_group_name      = azurerm_resource_group.learning_rg.name
+  location                 = azurerm_resource_group.learning_rg.location # implicit dependency
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
@@ -53,5 +53,5 @@ resource "azurerm_storage_account" "example" {
 }
 
 output "storage_account_name" {
-  value = azurerm_storage_account.example.name
+  value = azurerm_storage_account.learning_sa.name
 }

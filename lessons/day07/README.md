@@ -1,4 +1,8 @@
-## Task for Day07
+﻿## Task for Day07
+
+## Simple overview
+
+Practice Terraform variable types while building a small Azure network and virtual machine setup.
 
 ### Using the files from previous task(day06) , understand the use the below type constraints
 
@@ -10,6 +14,7 @@
 - Name: network_config , type=tuple([string, string, number])
 - Name: allowed_vm_sizes, type=list(string)
 - Name: vm_config,
+
 ```
   type = object({
     size         = string

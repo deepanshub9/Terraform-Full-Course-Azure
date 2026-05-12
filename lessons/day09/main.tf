@@ -1,3 +1,4 @@
+// Create the resource group with lifecycle rules and validation.
 resource "azurerm_resource_group" "learning_rg" {
 
 
@@ -20,6 +21,7 @@ resource "azurerm_resource_group" "learning_rg" {
 
 }
 
+// Create one storage account for each name in the map or list.
 resource "azurerm_storage_account" "learning_sa" {
 
   for_each                 = var.storage_account_name

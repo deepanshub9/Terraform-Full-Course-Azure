@@ -1,4 +1,8 @@
-## Task details for Day 21 - Azure policy and Governance
+﻿## Task details for Day 21 - Azure policy and Governance
+
+## Simple overview
+
+Use Terraform to manage Azure policy and governance with location, VM size, and tagging rules.
 
 ### Create three policies as below:
 

@@ -1,5 +1,6 @@
 data "azurerm_subscription" "current" {}
 
+# Define a policy that requires the allowed tags.
 resource "azurerm_policy_definition" "tag" {
   name         = "allowed-tag"
   policy_type  = "Custom"
@@ -29,6 +30,7 @@ resource "azurerm_policy_definition" "tag" {
 
 }
 
+# Assign the tag policy to the subscription.
 resource "azurerm_subscription_policy_assignment" "example" {
   name                 = "tag-assignment"
   policy_definition_id = azurerm_policy_definition.tag.id
@@ -36,6 +38,7 @@ resource "azurerm_subscription_policy_assignment" "example" {
 }
 
 
+# Define a policy that only allows the selected VM sizes.
 resource "azurerm_policy_definition" "vm_size" {
   name         = "vm-size"
   policy_type  = "Custom"
@@ -57,6 +60,7 @@ resource "azurerm_policy_definition" "vm_size" {
 
 }
 
+# Assign the VM size policy to the subscription.
 resource "azurerm_subscription_policy_assignment" "example1" {
   name                 = "size-assignment"
   policy_definition_id = azurerm_policy_definition.vm_size.id
@@ -64,6 +68,7 @@ resource "azurerm_subscription_policy_assignment" "example1" {
 }
 
 
+# Define a policy that only allows the selected Azure locations.
 resource "azurerm_policy_definition" "location" {
   name         = "location"
   policy_type  = "Custom"
@@ -85,6 +90,7 @@ resource "azurerm_policy_definition" "location" {
 
 }
 
+# Assign the location policy to the subscription.
 resource "azurerm_subscription_policy_assignment" "example2" {
   name                 = "location-assignment"
   policy_definition_id = azurerm_policy_definition.location.id

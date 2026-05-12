@@ -1,3 +1,4 @@
+# Create the development resource group.
 resource "azurerm_resource_group" "rg1" {
   name     = var.rgname
   location = var.location
@@ -12,6 +13,7 @@ module "ServicePrincipal" {
   ]
 }
 
+# Give the service principal access in the dev subscription.
 resource "azurerm_role_assignment" "rolespn" {
 
   scope                = "/subscriptions/${var.SUB_ID}"
@@ -37,6 +39,7 @@ module "keyvault" {
   ]
 }
 
+# Store the service principal secret in Key Vault.
 resource "azurerm_key_vault_secret" "example" {
   name         = module.ServicePrincipal.client_id
   value        = module.ServicePrincipal.client_secret
@@ -64,6 +67,7 @@ module "aks" {
 
 }
 
+# Write the AKS kubeconfig for the dev environment.
 resource "local_file" "kubeconfig" {
   depends_on = [module.aks]
   filename   = "./kubeconfig"

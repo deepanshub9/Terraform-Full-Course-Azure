@@ -45,6 +45,7 @@ resource "azurerm_resource_group" "rg" {
 
 }
 
+# Create the storage account name using Terraform string functions.
 resource "azurerm_storage_account" "example" {
 
   name                     = local.storage_formatted
@@ -60,6 +61,7 @@ resource "azurerm_storage_account" "example" {
 }
 
 
+# Create the network security group with rules built from local values.
 # Create Network Security Group
 resource "azurerm_network_security_group" "example" {
   name                = "${local.formatted_name}-nsg"

@@ -1,5 +1,8 @@
-## Learn Terraform Azure AD
+﻿## Learn Terraform Azure AD
 
+## Simple overview
+
+Use Terraform with Azure AD to create users, groups, and memberships from a CSV file.
 
 It contains Terraform conifguration files for you to use to learn how to to manage Azure AD users and groups using
 Terraform.
@@ -21,6 +24,7 @@ Michael,Scott,Education,Manager
 Jim,Halpert,Education,Engineer
 Pam,Beesly,Education,Engineer
 ```
+
 - Follow the video tutorial and create the AD users, groups and user to group association
 - Create more users
 - Add one to the existing group

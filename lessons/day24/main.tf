@@ -9,11 +9,13 @@ variable "location" {
   default = "France Central"
 }
 
+# Create the resource group for the web app demo.
 resource "azurerm_resource_group" "rg1" {
   name     = "${var.DAY}-rg"
   location = var.location
 }
 
+# Create the virtual network for the web app.
 resource "azurerm_virtual_network" "vnet" {
   name                = "${var.DAY}-vnet"
   location            = azurerm_resource_group.rg1.location
@@ -23,6 +25,7 @@ resource "azurerm_virtual_network" "vnet" {
 
 }
 
+# Create the subnet used by the web app resources.
 resource "azurerm_subnet" "sn" {
   name                 = "default"
   resource_group_name  = azurerm_resource_group.rg1.name
@@ -30,6 +33,7 @@ resource "azurerm_subnet" "sn" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
+# Create the app service plan for the Linux web app.
 resource "azurerm_service_plan" "name" {
   name                = "${var.DAY}-plan"
   location            = azurerm_resource_group.rg1.location
@@ -40,6 +44,7 @@ resource "azurerm_service_plan" "name" {
 
 }
 
+# Create the Linux web app that runs the sample app.
 resource "azurerm_linux_web_app" "name" {
   name                = "${var.DAY}-webapp-18462"
   location            = azurerm_resource_group.rg1.location

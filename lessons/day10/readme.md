@@ -1,1 +1,5 @@
+﻿## Simple overview
+
+Practice Terraform expressions like locals, conditionals, and splat syntax with NSG rules.
+
 Check out the [task.md](https://github.com/piyushsachdeva/Terraform-Full-Course-Azure/blob/main/lessons/day10/task.md) file for Day10 task assignment

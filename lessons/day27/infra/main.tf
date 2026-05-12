@@ -13,6 +13,7 @@ resource "random_string" "suffix" {
 }
 
 # Resource Group
+# Create the main resource group for the three-tier app.
 resource "azurerm_resource_group" "main" {
   name     = "${var.resource_group_name}-${var.environment}"
   location = var.location
@@ -50,6 +51,7 @@ module "keyvault" {
 }
 
 # After Key Vault is created, store database credentials as secrets
+# Store the database host name in Key Vault.
 resource "azurerm_key_vault_secret" "db_host" {
   name         = "db-host"
   value        = module.database.server_fqdn
@@ -58,6 +60,7 @@ resource "azurerm_key_vault_secret" "db_host" {
   depends_on = [module.keyvault, module.database]
 }
 
+# Store the database username in Key Vault.
 resource "azurerm_key_vault_secret" "db_username" {
   name         = "db-username"
   value        = module.database.administrator_login
@@ -66,6 +69,7 @@ resource "azurerm_key_vault_secret" "db_username" {
   depends_on = [module.keyvault, module.database]
 }
 
+# Store the database password in Key Vault.
 resource "azurerm_key_vault_secret" "db_password" {
   name         = "db-password"
   value        = module.database.administrator_password
@@ -74,6 +78,7 @@ resource "azurerm_key_vault_secret" "db_password" {
   depends_on = [module.keyvault, module.database]
 }
 
+# Store the database name in Key Vault.
 resource "azurerm_key_vault_secret" "db_name" {
   name         = "db-name"
   value        = var.postgres_db_name
@@ -83,6 +88,7 @@ resource "azurerm_key_vault_secret" "db_name" {
 }
 
 # Add DB port and SSL mode to Key Vault
+# Store the database port in Key Vault.
 resource "azurerm_key_vault_secret" "db_port" {
   name         = "db-port"
   value        = tostring(var.postgres_db_port)
@@ -91,6 +97,7 @@ resource "azurerm_key_vault_secret" "db_port" {
   depends_on = [module.keyvault]
 }
 
+# Store the SSL mode in Key Vault.
 resource "azurerm_key_vault_secret" "db_sslmode" {
   name         = "db-sslmode"
   value        = var.postgres_db_sslmode
@@ -100,6 +107,7 @@ resource "azurerm_key_vault_secret" "db_sslmode" {
 }
 
 # Store Docker Hub credentials in Key Vault
+# Store the Docker Hub username in Key Vault.
 resource "azurerm_key_vault_secret" "dockerhub_username" {
   name         = "dockerhub-username"
   value        = var.dockerhub_username
@@ -108,6 +116,7 @@ resource "azurerm_key_vault_secret" "dockerhub_username" {
   depends_on = [module.keyvault]
 }
 
+# Store the Docker Hub access token in Key Vault.
 resource "azurerm_key_vault_secret" "dockerhub_pat" {
   name         = "dockerhub-pat"
   value        = var.dockerhub_password
@@ -117,6 +126,7 @@ resource "azurerm_key_vault_secret" "dockerhub_pat" {
 }
 
 # Database
+# Create the PostgreSQL database layer.
 module "database" {
   source = "./modules/database"
 

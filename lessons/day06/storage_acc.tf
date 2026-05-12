@@ -1,3 +1,4 @@
+# Create the storage account in a separate file.
 resource "azurerm_storage_account" "learning_sa" {
 
   name                     = "devlearningsa"

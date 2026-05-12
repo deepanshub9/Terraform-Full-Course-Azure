@@ -9,6 +9,7 @@ data "azurerm_kubernetes_service_versions" "current" {
 }
 
 
+# Create the AKS cluster for the environment.
 resource "azurerm_kubernetes_cluster" "aks-cluster" {
   name                = var.cluster_name
   location            = var.location

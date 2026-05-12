@@ -1,4 +1,8 @@
-# Notes and diagrams of Day01 Video
+﻿# Notes and diagrams of Day01 Video
+
+## Simple overview
+Learn what Infrastructure as Code means, why Terraform is useful, and how Terraform changes cloud infrastructure from code.
+
 
 ## What is Infra as a Code
 - Provisioning your infra through code
@@ -86,3 +90,4 @@ terraform -install-autocomplete
 alias tf=terraform
 terraform -version
 ```
+

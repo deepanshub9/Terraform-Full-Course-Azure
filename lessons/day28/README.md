@@ -1,14 +1,18 @@
-# 🚀 AKS GitOps Deployment Guide
+﻿# ðŸš€ AKS GitOps Deployment Guide
+
+## Simple overview
+
+Deploy AKS with GitOps, ArgoCD, and separate dev, test, and prod environments.
 
 **Complete step-by-step guide to deploy AKS with GitOps using Terraform and ArgoCD**
 
 This repository provides a production-ready setup for deploying applications to Azure Kubernetes Service (AKS) using GitOps principles with ArgoCD and Terraform.
 
-## 📋 Table of Contents
+## ðŸ“‹ Table of Contents
 
 - [Architecture Overview](#-architecture-overview)
 - [Prerequisites](#-prerequisites)
-- [🔄 Complete Recreation Guide](#-complete-recreation-guide)
+- [ðŸ”„ Complete Recreation Guide](#-complete-recreation-guide)
 - [Quick Start](#-quick-start)
 - [Multi-Environment Setup](#-multi-environment-setup)
 - [Accessing ArgoCD WebUI](#-accessing-argocd-webui)
@@ -19,11 +23,11 @@ This repository provides a production-ready setup for deploying applications to 
 
 ---
 
-## Check out the video below for Day28 👇
+## Check out the video below for Day28 ðŸ‘‡
 
 [![Day 28/28 - Terraform end-to-end Project with AKS and GitOps](https://img.youtube.com/vi/FjsBZywrRX8/sddefault.jpg)](https://youtu.be/FjsBZywrRX8)
 
-## 🏗️ Architecture Overview
+## ðŸ—ï¸ Architecture Overview
 
 ### Components
 
@@ -33,53 +37,53 @@ This repository provides a production-ready setup for deploying applications to 
 - **Authentication**: Azure AD integration with local admin accounts
 - **Networking**: Azure CNI with network policies
 
-<img width="1519" height="836" alt="Screenshot 2025-07-18 at 5 31 50 AM" src="https://github.com/user-attachments/assets/c1ce8dfc-cb87-4620-bfad-6c6d573d1709" />
+<img width="1519" height="836" alt="Screenshot 2025-07-18 at 5 31 50â€¯AM" src="https://github.com/user-attachments/assets/c1ce8dfc-cb87-4620-bfad-6c6d573d1709" />
 
 ### Environment Structure
 
 ```text
 .
-├── dev                     dev env
-│   ├── argocd-app-manifest.yaml
-│   ├── backend.tf
-│   ├── backend.tf.example
-│   ├── deploy-argocd-app.sh
-│   ├── kubernetes-resources.tf
-│   ├── main.tf
-│   ├── outputs.tf
-│   ├── provider.tf
-│   ├── terraform.tfvars
-│   ├── validate-deployment.sh
-│   └── variables.tf
-├── prod           #prod env
-│   ├── argocd-app-manifest.yaml
-│   ├── backend.tf
-│   ├── backend.tf.example
-│   ├── deploy-argocd-app.sh
-│   ├── kubernetes-resources.tf
-│   ├── main.tf
-│   ├── outputs.tf
-│   ├── provider.tf
-│   ├── terraform.tfvars
-│   └── variables.tf
-├── README.md
-└── test            #testing env
-    ├── argocd-app-manifest.yaml
-    ├── backend.tf
-    ├── backend.tf.example
-    ├── deploy-argocd-app.sh
-    ├── kubernetes-resources.tf
-    ├── main.tf
-    ├── outputs.tf
-    ├── provider.tf
-    ├── terraform.tfvars
-    └── variables.tf
+â”œâ”€â”€ dev                     dev env
+â”‚   â”œâ”€â”€ argocd-app-manifest.yaml
+â”‚   â”œâ”€â”€ backend.tf
+â”‚   â”œâ”€â”€ backend.tf.example
+â”‚   â”œâ”€â”€ deploy-argocd-app.sh
+â”‚   â”œâ”€â”€ kubernetes-resources.tf
+â”‚   â”œâ”€â”€ main.tf
+â”‚   â”œâ”€â”€ outputs.tf
+â”‚   â”œâ”€â”€ provider.tf
+â”‚   â”œâ”€â”€ terraform.tfvars
+â”‚   â”œâ”€â”€ validate-deployment.sh
+â”‚   â””â”€â”€ variables.tf
+â”œâ”€â”€ prod           #prod env
+â”‚   â”œâ”€â”€ argocd-app-manifest.yaml
+â”‚   â”œâ”€â”€ backend.tf
+â”‚   â”œâ”€â”€ backend.tf.example
+â”‚   â”œâ”€â”€ deploy-argocd-app.sh
+â”‚   â”œâ”€â”€ kubernetes-resources.tf
+â”‚   â”œâ”€â”€ main.tf
+â”‚   â”œâ”€â”€ outputs.tf
+â”‚   â”œâ”€â”€ provider.tf
+â”‚   â”œâ”€â”€ terraform.tfvars
+â”‚   â””â”€â”€ variables.tf
+â”œâ”€â”€ README.md
+â””â”€â”€ test            #testing env
+    â”œâ”€â”€ argocd-app-manifest.yaml
+    â”œâ”€â”€ backend.tf
+    â”œâ”€â”€ backend.tf.example
+    â”œâ”€â”€ deploy-argocd-app.sh
+    â”œâ”€â”€ kubernetes-resources.tf
+    â”œâ”€â”€ main.tf
+    â”œâ”€â”€ outputs.tf
+    â”œâ”€â”€ provider.tf
+    â”œâ”€â”€ terraform.tfvars
+    â””â”€â”€ variables.tf
 
 ```
 
 ---
 
-## ✅ Prerequisites
+## âœ… Prerequisites
 
 ### 1. Essential Tools (Required)
 
@@ -177,15 +181,15 @@ ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa_azure -N ""
 
 ---
 
-## 🔄 Complete Recreation Guide
+## ðŸ”„ Complete Recreation Guide
 
-### **⚠️ CRITICAL: Follow this exact sequence for successful recreation**
+### **âš ï¸ CRITICAL: Follow this exact sequence for successful recreation**
 
 **Before deploying ANY infrastructure, you MUST first set up your GitOps repository. ArgoCD will fail to deploy applications without access to the manifest files.**
 
 ---
 
-### 🎯 Step 1: Create Your GitOps Repository (FIRST!)
+### ðŸŽ¯ Step 1: Create Your GitOps Repository (FIRST!)
 
 #### 1.1 Create New GitHub Repository
 
@@ -193,7 +197,7 @@ ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa_azure -N ""
    - **Repository name**: `gitops-configs` (or your preferred name)
    - **Description**: "Kubernetes manifests for 3-tier application GitOps deployment"
    - **Visibility**: Public (recommended) or Private with proper access configured
-   - ✅ **Initialize with README**
+   - âœ… **Initialize with README**
 
 2. **Clone your new repository**:
    ```bash
@@ -221,17 +225,17 @@ cd /path/to/your/gitops-configs
 # Verify the files are copied correctly
 ls -la
 .
-├── 3tire-configs
-│   ├── argocd-application.yaml
-│   ├── backend-config.yaml
-│   ├── backend.yaml
-│   ├── frontend-config.yaml
-│   ├── frontend.yaml
-│   ├── kustomization.yaml
-│   ├── namespace.yaml
-│   ├── postgres-config.yaml
-│   ├── postgres-pvc.yaml
-│   └── postgres.yaml
+â”œâ”€â”€ 3tire-configs
+â”‚   â”œâ”€â”€ argocd-application.yaml
+â”‚   â”œâ”€â”€ backend-config.yaml
+â”‚   â”œâ”€â”€ backend.yaml
+â”‚   â”œâ”€â”€ frontend-config.yaml
+â”‚   â”œâ”€â”€ frontend.yaml
+â”‚   â”œâ”€â”€ kustomization.yaml
+â”‚   â”œâ”€â”€ namespace.yaml
+â”‚   â”œâ”€â”€ postgres-config.yaml
+â”‚   â”œâ”€â”€ postgres-pvc.yaml
+â”‚   â””â”€â”€ postgres.yaml
 ```
 
 #### 1.3 Update Repository URL in Manifest Files
@@ -272,7 +276,7 @@ curl -s https://api.github.com/repos/YOUR_USERNAME/gitops-configs
 
 ---
 
-### 🔧 Step 2: Update Terraform Configuration Files
+### ðŸ”§ Step 2: Update Terraform Configuration Files
 
 #### 2.1 Update Repository URLs in ALL Environment Files
 
@@ -314,7 +318,7 @@ vim prod/terraform.tfvars
 
 ---
 
-### ✅ Step 3: Validation Before Infrastructure Deployment
+### âœ… Step 3: Validation Before Infrastructure Deployment
 
 #### 3.1 Validate GitOps Repository Access
 
@@ -387,11 +391,11 @@ terraform apply -auto-approve
 
 > **What Terraform Deploys Automatically:**
 >
-> - ✅ AKS cluster with auto-scaling
-> - ✅ ArgoCD installation via Helm
-> - ✅ Azure AD integration and RBAC
-> - ✅ Network policies and security groups
-> - ✅ Sample guestbook application via GitOps
+> - âœ… AKS cluster with auto-scaling
+> - âœ… ArgoCD installation via Helm
+> - âœ… Azure AD integration and RBAC
+> - âœ… Network policies and security groups
+> - âœ… Sample guestbook application via GitOps
 
 ### Step 4: Configure kubectl Access
 
@@ -420,7 +424,7 @@ kubectl get svc -n argocd
 
 ---
 
-## 🔐 Step 6: Configure Key Vault Integration for ArgoCD Applications
+## ðŸ” Step 6: Configure Key Vault Integration for ArgoCD Applications
 
 **IMPORTANT**: After deploying your infrastructure, you need to update your ArgoCD application manifests with the actual Key Vault details. The infrastructure creates dynamic values that must be configured in your GitOps repository.
 
@@ -459,9 +463,9 @@ spec:
   parameters:
     usePodIdentity: "false"
     useVMManagedIdentity: "true"
-    userAssignedIdentityID: "REPLACE_WITH_KUBELET_CLIENT_ID" # ← Update this
-    keyvaultName: "REPLACE_WITH_KEY_VAULT_NAME" # ← Update this
-    tenantId: "REPLACE_WITH_AZURE_TENANT_ID" # ← Update this
+    userAssignedIdentityID: "REPLACE_WITH_KUBELET_CLIENT_ID" # â† Update this
+    keyvaultName: "REPLACE_WITH_KEY_VAULT_NAME" # â† Update this
+    tenantId: "REPLACE_WITH_AZURE_TENANT_ID" # â† Update this
     objects: |
       array:
         - |
@@ -499,7 +503,7 @@ metadata:
   name: key-vault-config
   namespace: 3tirewebapp-dev
 data:
-  KEY_VAULT_NAME: "REPLACE_WITH_KEY_VAULT_NAME" # ← Update this
+  KEY_VAULT_NAME: "REPLACE_WITH_KEY_VAULT_NAME" # â† Update this
   KEY_VAULT_SECRET_POSTGRES_USERNAME: "postgres-username"
   KEY_VAULT_SECRET_POSTGRES_PASSWORD: "postgres-password"
   KEY_VAULT_SECRET_POSTGRES_DATABASE: "postgres-database"
@@ -515,7 +519,7 @@ Create this script to automate the Key Vault configuration:
 cat > update-keyvault-config.sh << 'EOF'
 #!/bin/bash
 
-echo "🔐 Updating Key Vault configuration in GitOps repository..."
+echo "ðŸ” Updating Key Vault configuration in GitOps repository..."
 
 # Get values from Terraform
 KEY_VAULT_NAME=$(terraform output -raw key_vault_name)
@@ -526,16 +530,16 @@ KV_SECRETS_PROVIDER_CLIENT_ID=$(az aks show --resource-group $(terraform output 
   --name $(terraform output -raw aks_cluster_name) \
   --query "addonProfiles.azureKeyvaultSecretsProvider.identity.clientId" -o tsv)
 
-echo "📋 Configuration values:"
+echo "ðŸ“‹ Configuration values:"
 echo "  Key Vault Name: $KEY_VAULT_NAME"
 echo "  Tenant ID: $TENANT_ID"
 echo "  Key Vault Secrets Provider Client ID: $KV_SECRETS_PROVIDER_CLIENT_ID"
 
 # Path to your GitOps repository (update this path)
-GITOPS_REPO_PATH="/path/to/your/gitops-configs"  # ← Update this path
+GITOPS_REPO_PATH="/path/to/your/gitops-configs"  # â† Update this path
 
 if [ ! -d "$GITOPS_REPO_PATH" ]; then
-  echo "❌ GitOps repository not found at: $GITOPS_REPO_PATH"
+  echo "âŒ GitOps repository not found at: $GITOPS_REPO_PATH"
   echo "   Please update GITOPS_REPO_PATH in this script"
   exit 1
 fi
@@ -544,7 +548,7 @@ fi
 KEY_VAULT_FILE="$GITOPS_REPO_PATH/3tire-configs/key-vault-secrets.yaml"
 
 if [ -f "$KEY_VAULT_FILE" ]; then
-  echo "🔄 Updating $KEY_VAULT_FILE..."
+  echo "ðŸ”„ Updating $KEY_VAULT_FILE..."
 
   # Create backup
   cp "$KEY_VAULT_FILE" "$KEY_VAULT_FILE.backup"
@@ -554,13 +558,13 @@ if [ -f "$KEY_VAULT_FILE" ]; then
   sed -i "s/REPLACE_WITH_KEY_VAULT_NAME/$KEY_VAULT_NAME/g" "$KEY_VAULT_FILE"
   sed -i "s/REPLACE_WITH_AZURE_TENANT_ID/$TENANT_ID/g" "$KEY_VAULT_FILE"
 
-  echo "✅ Key Vault configuration updated successfully!"
-  echo "🚀 Next steps:"
+  echo "âœ… Key Vault configuration updated successfully!"
+  echo "ðŸš€ Next steps:"
   echo "   1. Review the changes: git diff"
   echo "   2. Commit and push: git add . && git commit -m 'Update Key Vault configuration' && git push"
   echo "   3. ArgoCD will automatically sync the changes"
 else
-  echo "❌ Key Vault secrets file not found: $KEY_VAULT_FILE"
+  echo "âŒ Key Vault secrets file not found: $KEY_VAULT_FILE"
   echo "   Make sure your GitOps repository is properly set up"
 fi
 EOF
@@ -601,9 +605,9 @@ cd /path/to/your/gitops-configs
 vim 3tire-configs/key-vault-secrets.yaml
 
 # Replace these placeholders:
-# REPLACE_WITH_KUBELET_CLIENT_ID     → Use the Key Vault Secrets Provider client ID from above
-# REPLACE_WITH_KEY_VAULT_NAME        → Use the Key Vault name from above
-# REPLACE_WITH_AZURE_TENANT_ID       → Use the tenant ID from above
+# REPLACE_WITH_KUBELET_CLIENT_ID     â†’ Use the Key Vault Secrets Provider client ID from above
+# REPLACE_WITH_KEY_VAULT_NAME        â†’ Use the Key Vault name from above
+# REPLACE_WITH_AZURE_TENANT_ID       â†’ Use the tenant ID from above
 ```
 
 **Step 3: Commit and Push Changes**
@@ -718,24 +722,24 @@ userAssignedIdentityID: "<key-vault-secrets-provider-client-id>"
 cat > validate-keyvault-integration.sh << 'EOF'
 #!/bin/bash
 
-echo "🔍 Validating Key Vault integration..."
+echo "ðŸ” Validating Key Vault integration..."
 
 # Check if SecretProviderClass exists and is configured
 echo "1. Checking SecretProviderClass..."
 kubectl get secretproviderclass postgres-secrets-provider -n 3tirewebapp-dev > /dev/null 2>&1
 if [ $? -eq 0 ]; then
-  echo "   ✅ SecretProviderClass exists"
+  echo "   âœ… SecretProviderClass exists"
 
   # Check if required fields are configured
   TENANT_ID=$(kubectl get secretproviderclass postgres-secrets-provider -n 3tirewebapp-dev -o jsonpath='{.spec.parameters.tenantId}')
   USER_ID=$(kubectl get secretproviderclass postgres-secrets-provider -n 3tirewebapp-dev -o jsonpath='{.spec.parameters.userAssignedIdentityID}')
   KV_NAME=$(kubectl get secretproviderclass postgres-secrets-provider -n 3tirewebapp-dev -o jsonpath='{.spec.parameters.keyvaultName}')
 
-  if [ "$TENANT_ID" != "" ]; then echo "   ✅ Tenant ID configured: $TENANT_ID"; else echo "   ❌ Tenant ID missing"; fi
-  if [ "$USER_ID" != "" ]; then echo "   ✅ User Assigned Identity ID configured: $USER_ID"; else echo "   ❌ User Assigned Identity ID missing"; fi
-  if [ "$KV_NAME" != "" ]; then echo "   ✅ Key Vault name configured: $KV_NAME"; else echo "   ❌ Key Vault name missing"; fi
+  if [ "$TENANT_ID" != "" ]; then echo "   âœ… Tenant ID configured: $TENANT_ID"; else echo "   âŒ Tenant ID missing"; fi
+  if [ "$USER_ID" != "" ]; then echo "   âœ… User Assigned Identity ID configured: $USER_ID"; else echo "   âŒ User Assigned Identity ID missing"; fi
+  if [ "$KV_NAME" != "" ]; then echo "   âœ… Key Vault name configured: $KV_NAME"; else echo "   âŒ Key Vault name missing"; fi
 else
-  echo "   ❌ SecretProviderClass not found"
+  echo "   âŒ SecretProviderClass not found"
 fi
 
 # Check if pods are running
@@ -744,9 +748,9 @@ kubectl get pods -n 3tirewebapp-dev --no-headers | while read line; do
   POD_NAME=$(echo $line | awk '{print $1}')
   POD_STATUS=$(echo $line | awk '{print $3}')
   if [ "$POD_STATUS" = "Running" ]; then
-    echo "   ✅ $POD_NAME: $POD_STATUS"
+    echo "   âœ… $POD_NAME: $POD_STATUS"
   else
-    echo "   ⚠️  $POD_NAME: $POD_STATUS"
+    echo "   âš ï¸  $POD_NAME: $POD_STATUS"
   fi
 done
 
@@ -754,12 +758,12 @@ done
 echo "3. Checking Key Vault secret creation..."
 kubectl get secret postgres-credentials-from-kv -n 3tirewebapp-dev > /dev/null 2>&1
 if [ $? -eq 0 ]; then
-  echo "   ✅ Key Vault secret successfully synced to Kubernetes"
+  echo "   âœ… Key Vault secret successfully synced to Kubernetes"
 else
-  echo "   ❌ Key Vault secret not found - CSI driver may not be working"
+  echo "   âŒ Key Vault secret not found - CSI driver may not be working"
 fi
 
-echo "🎉 Validation complete!"
+echo "ðŸŽ‰ Validation complete!"
 EOF
 
 chmod +x validate-keyvault-integration.sh
@@ -767,7 +771,7 @@ chmod +x validate-keyvault-integration.sh
 
 ---
 
-## 🏢 Multi-Environment Setup
+## ðŸ¢ Multi-Environment Setup
 
 This repository provides three fully configured environments with progressive resource allocation:
 
@@ -849,7 +853,7 @@ cp backend.tf.example backend.tf
 
 ---
 
-## 🌐 Accessing ArgoCD WebUI
+## ðŸŒ Accessing ArgoCD WebUI
 
 ### Get ArgoCD Access Information
 
@@ -889,7 +893,7 @@ kubectl port-forward svc/argocd-server -n argocd 8080:80
 
 ---
 
-## 🎯 Quick Application Access
+## ðŸŽ¯ Quick Application Access
 
 ### Manual Steps
 
@@ -904,20 +908,20 @@ kubectl port-forward svc/frontend -n 3tirewebapp-dev 3000:3000
 # http://localhost:3000
 ```
 
-**🎉 Your 3-tier application is now accessible! This includes a React frontend, Node.js backend, and PostgreSQL database.**
+**ðŸŽ‰ Your 3-tier application is now accessible! This includes a React frontend, Node.js backend, and PostgreSQL database.**
 
 ---
 
-## 📋 Application Access Summary
+## ðŸ“‹ Application Access Summary
 
-### 🎯 Quick Access (Recommended)
+### ðŸŽ¯ Quick Access (Recommended)
 
 ```bash
 # Port forward to frontend service for immediate access
 kubectl port-forward svc/frontend -n 3tirewebapp-dev 3000:3000
 ```
 
-### 🔗 All Access Methods for Your 3-Tier Application
+### ðŸ”— All Access Methods for Your 3-Tier Application
 
 | Method                 | Use Case                       | Prerequisites                         | Command/Steps                                                    | Access URL                     |
 | ---------------------- | ------------------------------ | ------------------------------------- | ---------------------------------------------------------------- | ------------------------------ |
@@ -926,18 +930,18 @@ kubectl port-forward svc/frontend -n 3tirewebapp-dev 3000:3000
 | **LoadBalancer**       | External Cloud Access          | Azure LoadBalancer support            | Patch service to LoadBalancer type                               | `http://<EXTERNAL-IP>:3000`    |
 | **NodePort**           | Direct Node Access             | Node IP access                        | Patch service to NodePort type                                   | `http://<NODE-IP>:<NodePort>`  |
 
-#### 🏆 Recommended Access Methods by Environment
+#### ðŸ† Recommended Access Methods by Environment
 
 - **Development**: Port Forward (fastest setup)
 - **Testing/Staging**: Built-in Ingress (production-like)
 - **Production**: Ingress with real domain + TLS
 - **Demo/External**: LoadBalancer (public access)
 
-### 🌐 Using the Built-in Ingress (Recommended for Production-like Testing)
+### ðŸŒ Using the Built-in Ingress (Recommended for Production-like Testing)
 
 Your manifest already includes an Ingress configuration! Here's how to use it:
 
-#### 📋 Your Ingress Configuration
+#### ðŸ“‹ Your Ingress Configuration
 
 Your `frontend.yaml` manifest includes this built-in Ingress resource:
 
@@ -1013,7 +1017,7 @@ kubectl get ingress -n 3tirewebapp-dev
 curl -H "Host: 3tirewebapp-dev.local" http://$INGRESS_IP
 ```
 
-### 🚀 Alternative Access Methods
+### ðŸš€ Alternative Access Methods
 
 #### Method 1: LoadBalancer (External Cloud Access)
 
@@ -1049,7 +1053,7 @@ echo "Access your application at: http://$NODE_IP:$NODE_PORT"
 kubectl patch svc frontend -n 3tirewebapp-dev -p '{"spec":{"type":"ClusterIP"}}'
 ```
 
-### 🔍 Your 3-Tier Application Architecture
+### ðŸ” Your 3-Tier Application Architecture
 
 Your deployed application consists of:
 
@@ -1200,7 +1204,7 @@ curl -H "Host: 3tirewebapp-dev.local" http://<INGRESS-IP>
 
 ---
 
-## ✅ Verification
+## âœ… Verification
 
 ### Automated Validation Script
 
@@ -1229,7 +1233,7 @@ kubectl get pods -n goal-tracker
 kubectl get svc -n goal-tracker
 ```
 
-### Health Indicators ✅
+### Health Indicators âœ…
 
 **Healthy deployment should show:**
 
@@ -1240,7 +1244,7 @@ kubectl get svc -n goal-tracker
 
 ---
 
-## 🔧 Troubleshooting
+## ðŸ”§ Troubleshooting
 
 ### Common Issues and Solutions
 
@@ -1290,7 +1294,7 @@ kubectl patch application <app-name> -n argocd --type merge --patch '{"operation
 
 ---
 
-## 🧹 Clean Up
+## ðŸ§¹ Clean Up
 
 ### Remove Applications
 
@@ -1318,7 +1322,7 @@ rm -f ~/.kube/config.backup
 
 ---
 
-## 📝 Configuration Files
+## ðŸ“ Configuration Files
 
 ### Key Configuration Files
 
@@ -1337,7 +1341,7 @@ rm -f ~/.kube/config.backup
 
 ---
 
-## 🎯 Next Steps
+## ðŸŽ¯ Next Steps
 
 1. **Explore ArgoCD WebUI** - Navigate through applications and sync policies
 2. **Deploy Your Applications** - Add your own Git repositories
@@ -1347,7 +1351,7 @@ rm -f ~/.kube/config.backup
 
 ---
 
-## 📞 Support
+## ðŸ“ž Support
 
 For issues or questions:
 
@@ -1356,15 +1360,15 @@ For issues or questions:
 3. Validate Azure permissions and quotas
 4. Ensure all prerequisites are met
 
-**🎉 Congratulations! You now have a fully functional AKS GitOps platform!**
+**ðŸŽ‰ Congratulations! You now have a fully functional AKS GitOps platform!**
 
-## ⚠️ **IMPORTANT: Key Vault Identity Configuration**
+## âš ï¸ **IMPORTANT: Key Vault Identity Configuration**
 
 ### **Common Mistake: Using Wrong Managed Identity**
 
 **CRITICAL ERROR TO AVOID:** Do **NOT** use the kubelet identity for the SecretProviderClass. This is a common mistake that causes "403 Forbidden" errors.
 
-#### **❌ WRONG - Don't Use This Command:**
+#### **âŒ WRONG - Don't Use This Command:**
 
 ```bash
 # This gets the kubelet identity - WRONG for SecretProviderClass
@@ -1373,7 +1377,7 @@ az aks show --resource-group $(terraform output -raw resource_group_name) \
   --query "identityProfile.kubeletidentity.clientId" -o tsv
 ```
 
-#### **✅ CORRECT - Use This Command:**
+#### **âœ… CORRECT - Use This Command:**
 
 ```bash
 # This gets the Key Vault Secrets Provider identity - CORRECT for SecretProviderClass

@@ -22,6 +22,7 @@ resource "azurerm_subnet" "internal" {
   address_prefixes     = ["10.0.2.0/24"]
 }
 
+# Create the network security group for the VM.
 resource "azurerm_network_security_group" "vm_nsg" {
   name                = "vm-nsg"
   location            = azurerm_resource_group.app_rg.location
@@ -54,6 +55,7 @@ resource "azurerm_network_security_group" "vm_nsg" {
 
 
 # Public IP
+# Create the public IP address for the VM.
 resource "azurerm_public_ip" "vm_ip" {
   name                = "demo-public-ip"
   location            = azurerm_resource_group.app_rg.location
@@ -62,6 +64,7 @@ resource "azurerm_public_ip" "vm_ip" {
 }
 
 # Network Interface
+# Create the network interface for the VM.
 resource "azurerm_network_interface" "main" {
   name                = "demo-nic"
   location            = azurerm_resource_group.app_rg.location
@@ -75,11 +78,13 @@ resource "azurerm_network_interface" "main" {
   }
 }
 
+# Connect the NIC to the network security group.
 resource "azurerm_network_interface_security_group_association" "example" {
   network_interface_id      = azurerm_network_interface.main.id
   network_security_group_id = azurerm_network_security_group.vm_nsg.id
 }
 
+# Run a small local script before the VM is created.
 resource "null_resource" "deployment_prep" {
   triggers = {
     always_run = timestamp()
@@ -93,6 +98,7 @@ resource "null_resource" "deployment_prep" {
 
 
 # Virtual Machine
+# Create the Linux virtual machine that hosts Nginx.
 resource "azurerm_linux_virtual_machine" "demo_vm" {
   name                  = "demo-vm"
   location              = azurerm_resource_group.app_rg.location

@@ -1,4 +1,4 @@
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West Europe"
+resource "azurerm_resource_group" "learning_rg" {
+  name     = "dev-learning-rg"
+  location = "France Central"
 }

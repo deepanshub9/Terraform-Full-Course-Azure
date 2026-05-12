@@ -1,53 +1,53 @@
 locals {
-  formatted_name =  lower(replace(var.project_name, " ", "-"))
-  merge_tags = merge(var.default_tags,var.environment_tags)
-  storage_formatted = replace(replace(lower(substr(var.storage_account_name,0,23))," ",""),"!","")
+  formatted_name    = lower(replace(var.project_name, " ", "-"))
+  merge_tags        = merge(var.default_tags, var.environment_tags)
+  storage_formatted = replace(replace(lower(substr(var.storage_account_name, 0, 23)), " ", ""), "!", "")
 
-  formatted_ports = split(",",(var.allowed_ports))
+  formatted_ports = split(",", (var.allowed_ports))
   nsg_rules = [for port in local.formatted_ports : {
-    name = "port-${port}"
-    port = port
+    name        = "port-${port}"
+    port        = port
     description = "Allowed traffic on port: ${port}"
-  }
-]
+    }
+  ]
 
-vm_size = lookup(var.vm_sizes,var.environment,lower("dev"))
+  vm_size = lookup(var.vm_sizes, var.environment, lower("dev"))
 
-#assignment 9
-user_location = ["eastus", "westus","eastus"]
-default_location = ["centralus"]
+  #assignment 9
+  user_location    = ["France Central", "France Central", "France Central"]
+  default_location = ["France Central"]
 
-unique_location = toset(concat(local.user_location,local.default_location))
+  unique_location = toset(concat(local.user_location, local.default_location))
 
-#assignment 10
+  #assignment 10
 
-monthly_costs = [-50, 100, 75, 200]
-positive_cost = [for cost in local.monthly_costs :
-abs(cost)]
-max_cost = max(local.positive_cost...)
+  monthly_costs = [-50, 100, 75, 200]
+  positive_cost = [for cost in local.monthly_costs :
+  abs(cost)]
+  max_cost = max(local.positive_cost...)
 
-#assignment 11
+  #assignment 11
 
-current_time = timestamp()
-resource_name = formatdate("YYYYMMDD",local.current_time)
-tag_date = formatdate("DD-MM-YYYY",local.current_time)
+  current_time  = timestamp()
+  resource_name = formatdate("YYYYMMDD", local.current_time)
+  tag_date      = formatdate("DD-MM-YYYY", local.current_time)
 
-#assignment 12
-config_content = sensitive(file(config.json))
+  #assignment 12
+  config_content = sensitive(file(config.json))
 
 }
 
-resource azurerm_resource_group rg {
-name = "${local.formatted_name}-rg"
-location = "westus2"
+resource "azurerm_resource_group" "rg" {
+  name     = "${local.formatted_name}-rg"
+  location = "France Central"
 
-tags = local.merge_tags
+  tags = local.merge_tags
 
 }
 
 resource "azurerm_storage_account" "example" {
-   
-  name = local.storage_formatted
+
+  name                     = local.storage_formatted
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
@@ -75,11 +75,11 @@ resource "azurerm_network_security_group" "example" {
       direction                  = "Inbound"
       access                     = "Allow"
       protocol                   = "Tcp"
-      source_port_range         = "*"
-      destination_port_range    = security_rule.value.port
-      source_address_prefix     = "*"
+      source_port_range          = "*"
+      destination_port_range     = security_rule.value.port
+      source_address_prefix      = "*"
       destination_address_prefix = "*"
-      description               = security_rule.value.description
+      description                = security_rule.value.description
     }
   }
 }
@@ -108,27 +108,27 @@ output "backup" {
 }
 
 output "credential" {
-    value = var.credential
-    sensitive = true
-  
+  value     = var.credential
+  sensitive = true
+
 }
 
 output "unique_location" {
   value = local.unique_location
 }
 
-output "max_cost"{
-    value = local.max_cost
+output "max_cost" {
+  value = local.max_cost
 }
 
 output "positive" {
-    value = local.positive_cost
-  
+  value = local.positive_cost
+
 }
 
 output "resource_tag" {
-    value = local.resource_name
-  
+  value = local.resource_name
+
 }
 
 output "config_loaded" {

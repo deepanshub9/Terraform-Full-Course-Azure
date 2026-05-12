@@ -1,19 +1,18 @@
-resource "azurerm_resource_group" "example" {
-  name     = "${var.environment}-resources"
-  location = var.allowed_locations[2]
+resource "azurerm_resource_group" "learning_rg" {
+  name     = "${var.environment}-learning-rg"
+  location = var.allowed_locations[0]
 }
 
-resource "azurerm_storage_account" "example" {
-  #count = length(var.storage_account_name)
-  for_each = var.storage_account_name
-  #name = var.storage_account_name(count.index)
+resource "azurerm_storage_account" "learning_sa" {
+  for_each                 = var.storage_account_name
   name                     = each.value
-  resource_group_name      = azurerm_resource_group.example.name
-  location                 = azurerm_resource_group.example.location
+  resource_group_name      = azurerm_resource_group.learning_rg.name
+  location                 = azurerm_resource_group.learning_rg.location
   account_tier             = "Standard"
   account_replication_type = "GRS"
 
   tags = {
-    environment = "staging"
+    environment = var.environment
+    purpose     = "learning"
   }
 }

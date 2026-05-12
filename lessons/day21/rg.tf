@@ -1,19 +1,19 @@
-resource "azurerm_resource_group" "rg" {
-    name = "test-rg"
-    location = "canadacentral"
-  
+resource "azurerm_resource_group" "rg_primary" {
+  name     = "dev-primary-rg"
+  location = "France Central"
+
   tags = {
     department = "IT"
-    project = "Accelerator"
+    project    = "Learning"
   }
 }
 
-resource "azurerm_resource_group" "rg1" {
-    name = "test-rg1"
-    location = "canadacentral"
-  
+resource "azurerm_resource_group" "rg_secondary" {
+  name     = "dev-secondary-rg"
+  location = "France Central"
+
   tags = {
     department = "IT"
-    project = "Accelerator"
+    project    = "Learning"
   }
 }

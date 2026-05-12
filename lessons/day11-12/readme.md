@@ -1,6 +1,5 @@
 # Terraform Functions Learning Guide - Assignments
 
-
 ## Console Commands
 
 Practice these fundamental commands in `terraform console` before starting the assignments:
@@ -24,16 +23,19 @@ reverse(["a", "b", "c"])
 Your company requires all resource names to be lowercase and replace spaces with hyphens.
 
 **Input**:
+
 ```
 "Project ALPHA Resource"
 ```
 
 **Required Output**:
+
 ```
 "project-alpha-resource"
 ```
 
 **Tasks**:
+
 1. Create a variable `project_name` with the given input
 2. Create a local that uses the required functions
 3. Use the transformed name to create an Azure resource group
@@ -49,6 +51,7 @@ Your company requires all resource names to be lowercase and replace spaces with
 You need to combine default company tags with environment-specific tags.
 
 **Input**:
+
 ```hcl
 # Default tags
 {
@@ -64,6 +67,7 @@ You need to combine default company tags with environment-specific tags.
 ```
 
 **Tasks**:
+
 1. Create locals for both tag sets
 2. Merge them using the appropriate function
 3. Apply them to a resource group
@@ -79,16 +83,19 @@ You need to combine default company tags with environment-specific tags.
 Azure storage account names must be less than 24 characters and use only lowercase letters and numbers.
 
 **Input**:
+
 ```
 "projectalphastorageaccount"
 ```
 
 **Requirements**:
+
 - Maximum length: 23 characters
 - All lowercase
 - No special characters
 
 **Tasks**:
+
 1. Create a function to process the storage account name
 2. Ensure it meets Azure requirements
 3. Apply it to a storage account resource
@@ -104,16 +111,19 @@ Azure storage account names must be less than 24 characters and use only lowerca
 Transform a comma-separated list of ports into a specific format for documentation.
 
 **Input**:
+
 ```
 "80,443,8080,3306"
 ```
 
 **Required Output**:
+
 ```
 "port-80-port-443-port-8080-port-3306"
 ```
 
 **Tasks**:
+
 1. Create a variable for the port list
 2. Transform it using appropriate functions
 3. Create an output with the formatted result
@@ -129,6 +139,7 @@ Transform a comma-separated list of ports into a specific format for documentati
 Implement environment configuration mapping with fallback values.
 
 **Input**:
+
 ```hcl
 environments = {
     dev = {
@@ -143,6 +154,7 @@ environments = {
 ```
 
 **Tasks**:
+
 1. Create the environments map
 2. Implement lookup with fallback
 3. Create outputs for the configuration
@@ -158,10 +170,12 @@ environments = {
 Implement validation rules for VM sizes.
 
 **Requirements**:
+
 - Length between 2 and 20 characters
 - Must contain 'standard'
 
 **Test Cases**:
+
 ```hcl
 Valid:    "standard_D2s_v3"
 Invalid:  "basic_A0"
@@ -169,6 +183,7 @@ Invalid:  "standard_D2s_v3_extra_long_name"
 ```
 
 **Tasks**:
+
 1. Create a variable for VM size
 2. Implement both validation rules
 3. Test with various inputs
@@ -184,17 +199,20 @@ Invalid:  "standard_D2s_v3_extra_long_name"
 Create a secure backup configuration handler.
 
 **Input**:
+
 ```hcl
 backup_name = "daily_backup"
 credential  = "xyz123" # Should be sensitive
 ```
 
 **Requirements**:
-- Name must end with '_backup'
+
+- Name must end with '\_backup'
 - Credentials must be marked sensitive
 - Handle validation failures
 
 **Tasks**:
+
 1. Create variables for both inputs
 2. Implement proper validation
 3. Handle sensitive data correctly
@@ -210,12 +228,14 @@ credential  = "xyz123" # Should be sensitive
 Validate Terraform configuration file paths.
 
 **Paths to Validate**:
+
 ```
 ./configs/main.tf
 ./configs/variables.tf
 ```
 
 **Tasks**:
+
 1. Create path validation function
 2. Extract directory names
 3. Handle missing files
@@ -231,12 +251,14 @@ Validate Terraform configuration file paths.
 Manage unique resource locations.
 
 **Input**:
+
 ```hcl
-user_locations    = ["eastus", "westus", "eastus"]
-default_locations = ["centralus"]
+user_locations    = ["France Central", "France Central", "France Central"]
+default_locations = ["France Central"]
 ```
 
 **Tasks**:
+
 1. Combine location lists
 2. Remove duplicates
 3. Create location validation
@@ -252,16 +274,19 @@ default_locations = ["centralus"]
 Process monthly infrastructure costs.
 
 **Input**:
+
 ```hcl
 monthly_costs = [-50, 100, 75, 200]
 ```
 
 **Required**:
+
 - Convert negative values to positive
 - Find maximum cost
 - Calculate averages
 
 **Tasks**:
+
 1. Create cost processing function
 2. Handle negative values
 3. Calculate statistics
@@ -277,12 +302,14 @@ monthly_costs = [-50, 100, 75, 200]
 Generate formatted timestamps for different purposes.
 
 **Required Formats**:
+
 ```
 Resource Names: YYYYMMDD
 Tags: DD-MM-YYYY
 ```
 
 **Tasks**:
+
 1. Create timestamp generation
 2. Format for different uses
 3. Implement validation
@@ -298,12 +325,14 @@ Tags: DD-MM-YYYY
 Securely handle configuration file content.
 
 **Requirements**:
+
 - Read from config.json
 - Mark content as sensitive
 - Handle file errors
 - Validate JSON structure
 
 **Tasks**:
+
 1. Implement secure file reading
 2. Add error handling
 3. Validate file content

@@ -23,7 +23,6 @@ This repository provides a production-ready setup for deploying applications to 
 
 [![Day 28/28 - Terraform end-to-end Project with AKS and GitOps](https://img.youtube.com/vi/FjsBZywrRX8/sddefault.jpg)](https://youtu.be/FjsBZywrRX8)
 
-
 ## 🏗️ Architecture Overview
 
 ### Components
@@ -35,7 +34,6 @@ This repository provides a production-ready setup for deploying applications to 
 - **Networking**: Azure CNI with network policies
 
 <img width="1519" height="836" alt="Screenshot 2025-07-18 at 5 31 50 AM" src="https://github.com/user-attachments/assets/c1ce8dfc-cb87-4620-bfad-6c6d573d1709" />
-
 
 ### Environment Structure
 
@@ -112,6 +110,7 @@ curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 ### 3. Azure Authentication & Service Principal
 
 #### Step 1: Login to Azure
+
 ```bash
 # Login to Azure
 az login
@@ -124,6 +123,7 @@ az account show
 ```
 
 #### Step 2: Create Service Principal for Terraform
+
 ```bash
 # Get your subscription ID
 SUBSCRIPTION_ID=$(az account show --query id --output tsv)
@@ -148,6 +148,7 @@ az ad sp create-for-rbac \
 #### Step 3: Configure Terraform Authentication
 
 **Option A: Environment Variables (Recommended)**
+
 ```bash
 # Export service principal credentials
 export ARM_CLIENT_ID="your-client-id"
@@ -160,6 +161,7 @@ terraform version
 ```
 
 **Option B: Azure CLI Authentication (Alternative)**
+
 ```bash
 # If you prefer to use Azure CLI authentication instead of service principal
 az login
@@ -264,7 +266,7 @@ git push origin main
 
 #### 1.5 Verify Your GitOps Repository
 
-```bash
+````bash
 # Verify your repository is accessible
 curl -s https://api.github.com/repos/YOUR_USERNAME/gitops-configs
 
@@ -285,20 +287,18 @@ vim dev/terraform.tfvars
 # Find line ~15: app_repo_url = "https://github.com/itsBaivab/gitops-configs.git"
 # Change to:     app_repo_url = "https://github.com/YOUR_USERNAME/gitops-configs.git"
 
-# Update Test Environment  
+# Update Test Environment
 vim test/terraform.tfvars
 # Find line ~15: app_repo_url = "https://github.com/itsBaivab/gitops-configs.git"
 # Change to:     app_repo_url = "https://github.com/YOUR_USERNAME/gitops-configs.git"
 
 # Update Production Environment
-vim prod/terraform.tfvars  
+vim prod/terraform.tfvars
 # Find line ~15: app_repo_url = "https://github.com/itsBaivab/gitops-configs.git"
 # Change to:     app_repo_url = "https://github.com/YOUR_USERNAME/gitops-configs.git"
-```
+````
 
 #### 2.2 Verify All Repository URLs Are Updated
-
-
 
 #### 2.3 Optional: Customize Resource Names
 
@@ -328,8 +328,6 @@ curl -s https://raw.githubusercontent.com/YOUR_USERNAME/gitops-configs/main/name
 # 3. Files were pushed to the main branch
 ```
 
-
-
 ### Step 2: Configure Remote State Backend (Optional but Recommended)
 
 ```bash
@@ -351,7 +349,7 @@ cp backend.tf.example backend.tf
 
 ```bash
 # Create resource group for Terraform state
-az group create --name "rg-terraform-state" --location "East US"
+az group create --name "rg-terraform-state" --location "France Central"
 
 # Create storage account (name must be globally unique)
 STORAGE_ACCOUNT_NAME="tfstate$(date +%s)"
@@ -388,6 +386,7 @@ terraform apply -auto-approve
 ```
 
 > **What Terraform Deploys Automatically:**
+>
 > - ✅ AKS cluster with auto-scaling
 > - ✅ ArgoCD installation via Helm
 > - ✅ Azure AD integration and RBAC
@@ -460,9 +459,9 @@ spec:
   parameters:
     usePodIdentity: "false"
     useVMManagedIdentity: "true"
-    userAssignedIdentityID: "REPLACE_WITH_KUBELET_CLIENT_ID"    # ← Update this
-    keyvaultName: "REPLACE_WITH_KEY_VAULT_NAME"                 # ← Update this  
-    tenantId: "REPLACE_WITH_AZURE_TENANT_ID"                    # ← Update this
+    userAssignedIdentityID: "REPLACE_WITH_KUBELET_CLIENT_ID" # ← Update this
+    keyvaultName: "REPLACE_WITH_KEY_VAULT_NAME" # ← Update this
+    tenantId: "REPLACE_WITH_AZURE_TENANT_ID" # ← Update this
     objects: |
       array:
         - |
@@ -482,17 +481,17 @@ spec:
           objectType: secret
           objectVersion: ""
   secretObjects:
-  - secretName: postgres-credentials-from-kv
-    type: Opaque
-    data:
-    - objectName: postgres-username
-      key: POSTGRES_USER
-    - objectName: postgres-password
-      key: POSTGRES_PASSWORD
-    - objectName: postgres-database
-      key: POSTGRES_DB
-    - objectName: postgres-connection-string
-      key: DATABASE_URL
+    - secretName: postgres-credentials-from-kv
+      type: Opaque
+      data:
+        - objectName: postgres-username
+          key: POSTGRES_USER
+        - objectName: postgres-password
+          key: POSTGRES_PASSWORD
+        - objectName: postgres-database
+          key: POSTGRES_DB
+        - objectName: postgres-connection-string
+          key: DATABASE_URL
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -500,7 +499,7 @@ metadata:
   name: key-vault-config
   namespace: 3tirewebapp-dev
 data:
-  KEY_VAULT_NAME: "REPLACE_WITH_KEY_VAULT_NAME"                 # ← Update this
+  KEY_VAULT_NAME: "REPLACE_WITH_KEY_VAULT_NAME" # ← Update this
   KEY_VAULT_SECRET_POSTGRES_USERNAME: "postgres-username"
   KEY_VAULT_SECRET_POSTGRES_PASSWORD: "postgres-password"
   KEY_VAULT_SECRET_POSTGRES_DATABASE: "postgres-database"
@@ -529,7 +528,7 @@ KV_SECRETS_PROVIDER_CLIENT_ID=$(az aks show --resource-group $(terraform output 
 
 echo "📋 Configuration values:"
 echo "  Key Vault Name: $KEY_VAULT_NAME"
-echo "  Tenant ID: $TENANT_ID"  
+echo "  Tenant ID: $TENANT_ID"
 echo "  Key Vault Secrets Provider Client ID: $KV_SECRETS_PROVIDER_CLIENT_ID"
 
 # Path to your GitOps repository (update this path)
@@ -546,15 +545,15 @@ KEY_VAULT_FILE="$GITOPS_REPO_PATH/3tire-configs/key-vault-secrets.yaml"
 
 if [ -f "$KEY_VAULT_FILE" ]; then
   echo "🔄 Updating $KEY_VAULT_FILE..."
-  
+
   # Create backup
   cp "$KEY_VAULT_FILE" "$KEY_VAULT_FILE.backup"
-  
+
   # Replace placeholders with actual values
   sed -i "s/REPLACE_WITH_KUBELET_CLIENT_ID/$KV_SECRETS_PROVIDER_CLIENT_ID/g" "$KEY_VAULT_FILE"
   sed -i "s/REPLACE_WITH_KEY_VAULT_NAME/$KEY_VAULT_NAME/g" "$KEY_VAULT_FILE"
   sed -i "s/REPLACE_WITH_AZURE_TENANT_ID/$TENANT_ID/g" "$KEY_VAULT_FILE"
-  
+
   echo "✅ Key Vault configuration updated successfully!"
   echo "🚀 Next steps:"
   echo "   1. Review the changes: git diff"
@@ -581,7 +580,7 @@ cd dev/
 KEY_VAULT_NAME=$(terraform output -raw key_vault_name)
 echo "Key Vault Name: $KEY_VAULT_NAME"
 
-# Get Azure tenant ID  
+# Get Azure tenant ID
 TENANT_ID=$(az account show --query tenantId -o tsv)
 echo "Tenant ID: $TENANT_ID"
 
@@ -603,7 +602,7 @@ vim 3tire-configs/key-vault-secrets.yaml
 
 # Replace these placeholders:
 # REPLACE_WITH_KUBELET_CLIENT_ID     → Use the Key Vault Secrets Provider client ID from above
-# REPLACE_WITH_KEY_VAULT_NAME        → Use the Key Vault name from above  
+# REPLACE_WITH_KEY_VAULT_NAME        → Use the Key Vault name from above
 # REPLACE_WITH_AZURE_TENANT_ID       → Use the tenant ID from above
 ```
 
@@ -645,18 +644,21 @@ kubectl describe secretproviderclass postgres-secrets-provider -n 3tirewebapp-de
 #### Common Issues and Solutions:
 
 **1. "tenantId is not set" Error**
+
 ```bash
 # Ensure tenantId is properly set in SecretProviderClass
 kubectl get secretproviderclass postgres-secrets-provider -n 3tirewebapp-dev -o yaml | grep tenantId
 ```
 
-**2. "Multiple user assigned identities" Error**  
+**2. "Multiple user assigned identities" Error**
+
 ```bash
 # Ensure userAssignedIdentityID is specified
 kubectl get secretproviderclass postgres-secrets-provider -n 3tirewebapp-dev -o yaml | grep userAssignedIdentityID
 ```
 
 **3. "403 Forbidden" Key Vault Access Error**
+
 ```bash
 # Check if kubelet identity has Key Vault access
 az keyvault show --name $(terraform output -raw key_vault_name) \
@@ -666,6 +668,7 @@ az keyvault show --name $(terraform output -raw key_vault_name) \
 ```
 
 **4. Pod Stuck in "ContainerCreating"**
+
 ```bash
 # Check pod events for CSI mount errors
 kubectl describe pod -l app=postgres -n 3tirewebapp-dev
@@ -692,7 +695,7 @@ access_policy {
   secret_permissions = [
     "Get", "List"
   ]
-  
+
   certificate_permissions = [
     "Get", "List"
   ]
@@ -702,6 +705,7 @@ access_policy {
 **Why This Matters**: When you specify `userAssignedIdentityID` in your SecretProviderClass to use the kubelet identity, that identity must have proper Key Vault access permissions. Without this access policy, the CSI driver cannot retrieve secrets from Key Vault.
 
 **Alternative Approach**: You could also use the dedicated Key Vault Secrets Provider identity instead:
+
 ```yaml
 # In SecretProviderClass, use this instead of kubelet identity:
 userAssignedIdentityID: "<key-vault-secrets-provider-client-id>"
@@ -721,12 +725,12 @@ echo "1. Checking SecretProviderClass..."
 kubectl get secretproviderclass postgres-secrets-provider -n 3tirewebapp-dev > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   echo "   ✅ SecretProviderClass exists"
-  
+
   # Check if required fields are configured
   TENANT_ID=$(kubectl get secretproviderclass postgres-secrets-provider -n 3tirewebapp-dev -o jsonpath='{.spec.parameters.tenantId}')
   USER_ID=$(kubectl get secretproviderclass postgres-secrets-provider -n 3tirewebapp-dev -o jsonpath='{.spec.parameters.userAssignedIdentityID}')
   KV_NAME=$(kubectl get secretproviderclass postgres-secrets-provider -n 3tirewebapp-dev -o jsonpath='{.spec.parameters.keyvaultName}')
-  
+
   if [ "$TENANT_ID" != "" ]; then echo "   ✅ Tenant ID configured: $TENANT_ID"; else echo "   ❌ Tenant ID missing"; fi
   if [ "$USER_ID" != "" ]; then echo "   ✅ User Assigned Identity ID configured: $USER_ID"; else echo "   ❌ User Assigned Identity ID missing"; fi
   if [ "$KV_NAME" != "" ]; then echo "   ✅ Key Vault name configured: $KV_NAME"; else echo "   ❌ Key Vault name missing"; fi
@@ -769,15 +773,16 @@ This repository provides three fully configured environments with progressive re
 
 ### Environment Specifications
 
-| Environment | Location | VM Size | Node Count | Auto-Scaling | OS Disk | Use Case |
-|-------------|----------|---------|------------|--------------|---------|----------|
-| **Dev** | East US | Standard_D2s_v3 | 2 | 1-5 nodes | 30GB | Development & Testing |
-| **Test** | East US 2 | Standard_D4s_v3 | 3 | 2-8 nodes | 50GB | Integration Testing |
-| **Prod** | West US 2 | Standard_D8s_v3 | 5 | 3-10 nodes | 100GB | Production Workloads |
+| Environment | Location       | VM Size         | Node Count | Auto-Scaling | OS Disk | Use Case              |
+| ----------- | -------------- | --------------- | ---------- | ------------ | ------- | --------------------- |
+| **Dev**     | France Central | Standard_D2s_v3 | 2          | 1-5 nodes    | 30GB    | Development & Testing |
+| **Test**    | France Central | Standard_D4s_v3 | 3          | 2-8 nodes    | 50GB    | Integration Testing   |
+| **Prod**    | France Central | Standard_D8s_v3 | 5          | 3-10 nodes   | 100GB   | Production Workloads  |
 
 ### Deployment Instructions
 
 #### Deploy Development Environment
+
 ```bash
 cd dev/
 terraform init
@@ -785,7 +790,8 @@ terraform plan
 terraform apply -auto-approve
 ```
 
-#### Deploy Test Environment  
+#### Deploy Test Environment
+
 ```bash
 cd test/
 terraform init
@@ -794,6 +800,7 @@ terraform apply -auto-approve
 ```
 
 #### Deploy Production Environment
+
 ```bash
 cd prod/
 terraform init
@@ -804,18 +811,21 @@ terraform apply -auto-approve
 ### Environment-Specific Features
 
 #### **Development Environment**
+
 - **Purpose**: Local development and experimentation
 - **Resources**: Minimal resource allocation for cost efficiency
 - **Monitoring**: Basic logging enabled
 - **ArgoCD**: Single replica with standard resource limits
 
-#### **Test Environment**  
+#### **Test Environment**
+
 - **Purpose**: Integration testing and staging
 - **Resources**: Enhanced VM sizes and node count for testing workloads
 - **Monitoring**: Standard monitoring with extended log retention
 - **ArgoCD**: Enhanced resource limits for better performance
 
 #### **Production Environment**
+
 - **Purpose**: Production workloads with high availability
 - **Resources**: High-performance VMs with maximum scalability
 - **Monitoring**: Full monitoring suite with 90-day log retention
@@ -824,8 +834,9 @@ terraform apply -auto-approve
 ### Backend State Management
 
 Each environment has its own Terraform state file:
+
 - **Dev**: `dev/terraform.tfstate`
-- **Test**: `test/terraform.tfstate`  
+- **Test**: `test/terraform.tfstate`
 - **Prod**: `prod/terraform.tfstate`
 
 Configure remote state backend for each environment using the respective `backend.tf.example`:
@@ -900,6 +911,7 @@ kubectl port-forward svc/frontend -n 3tirewebapp-dev 3000:3000
 ## 📋 Application Access Summary
 
 ### 🎯 Quick Access (Recommended)
+
 ```bash
 # Port forward to frontend service for immediate access
 kubectl port-forward svc/frontend -n 3tirewebapp-dev 3000:3000
@@ -907,12 +919,12 @@ kubectl port-forward svc/frontend -n 3tirewebapp-dev 3000:3000
 
 ### 🔗 All Access Methods for Your 3-Tier Application
 
-| Method | Use Case | Prerequisites | Command/Steps | Access URL |
-|--------|----------|---------------|---------------|------------|
-| **Port Forward** | Development, Testing | kubectl access | `kubectl port-forward svc/frontend -n 3tirewebapp-dev 3000:3000` | `http://localhost:3000` |
-| **Ingress (Built-in)** | Production-like, Domain Access | NGINX Ingress Controller + /etc/hosts | Install NGINX Ingress + configure hosts file | `http://3tirewebapp-dev.local` |
-| **LoadBalancer** | External Cloud Access | Azure LoadBalancer support | Patch service to LoadBalancer type | `http://<EXTERNAL-IP>:3000` |
-| **NodePort** | Direct Node Access | Node IP access | Patch service to NodePort type | `http://<NODE-IP>:<NodePort>` |
+| Method                 | Use Case                       | Prerequisites                         | Command/Steps                                                    | Access URL                     |
+| ---------------------- | ------------------------------ | ------------------------------------- | ---------------------------------------------------------------- | ------------------------------ |
+| **Port Forward**       | Development, Testing           | kubectl access                        | `kubectl port-forward svc/frontend -n 3tirewebapp-dev 3000:3000` | `http://localhost:3000`        |
+| **Ingress (Built-in)** | Production-like, Domain Access | NGINX Ingress Controller + /etc/hosts | Install NGINX Ingress + configure hosts file                     | `http://3tirewebapp-dev.local` |
+| **LoadBalancer**       | External Cloud Access          | Azure LoadBalancer support            | Patch service to LoadBalancer type                               | `http://<EXTERNAL-IP>:3000`    |
+| **NodePort**           | Direct Node Access             | Node IP access                        | Patch service to NodePort type                                   | `http://<NODE-IP>:<NodePort>`  |
 
 #### 🏆 Recommended Access Methods by Environment
 
@@ -953,6 +965,7 @@ spec:
 ```
 
 **Key Features:**
+
 - **Host**: `3tirewebapp-dev.local` (customizable domain for local testing)
 - **Path**: `/` (root path routing to frontend)
 - **Target Service**: `frontend` service on port `3000`
@@ -1041,6 +1054,7 @@ kubectl patch svc frontend -n 3tirewebapp-dev -p '{"spec":{"type":"ClusterIP"}}'
 Your deployed application consists of:
 
 #### **Frontend (React Application)**
+
 - **Service**: `frontend` on port 3000 (ClusterIP)
 - **Container**: `itsbaivab/frontend:v2`
 - **Features**: React-based web interface with Express.js proxy server
@@ -1049,6 +1063,7 @@ Your deployed application consists of:
 - **Resources**: 100m CPU request, 200m CPU limit, 128Mi-256Mi memory
 
 #### **Backend (Node.js API)**
+
 - **Service**: `backend` on port 8080 (ClusterIP)
 - **Container**: `itsbaivab/backend:latest`
 - **Database Connection**: Connects to PostgreSQL via ConfigMap/Secret settings
@@ -1057,6 +1072,7 @@ Your deployed application consists of:
 - **Resources**: 100m CPU request, 200m CPU limit, 128Mi-256Mi memory
 
 #### **Database (PostgreSQL)**
+
 - **Service**: `postgres` on port 5432 (ClusterIP)
 - **Container**: `postgres:15`
 - **Persistence**: Uses `postgres-pvc` persistent volume for data storage
@@ -1090,7 +1106,6 @@ kubectl exec -it deployment/backend -n 3tirewebapp-dev -- \
 kill %1 %2
 ```
 
-
 ### Verify Application Health & Communication
 
 ```bash
@@ -1119,6 +1134,7 @@ kubectl run debug-pod --image=curlimages/curl --rm -it --restart=Never -- \
 #### Common Issues and Solutions
 
 **1. Frontend Port Forward Connection Refused**
+
 ```bash
 # Check if frontend service exists and has endpoints
 kubectl get svc,endpoints frontend -n 3tirewebapp-dev
@@ -1132,6 +1148,7 @@ kubectl port-forward svc/frontend -n 3tirewebapp-dev 3001:3000
 ```
 
 **2. Application Shows Backend Connection Error**
+
 ```bash
 # Check backend service connectivity
 kubectl get svc backend -n 3tirewebapp-dev
@@ -1148,6 +1165,7 @@ kill %1
 ```
 
 **3. Database Connection Issues**
+
 ```bash
 # Check PostgreSQL pod and service
 kubectl get pods -l app=postgres -n 3tirewebapp-dev
@@ -1163,6 +1181,7 @@ kubectl exec -it deployment/backend -n 3tirewebapp-dev -- \
 ```
 
 **4. Ingress Domain Not Resolving**
+
 ```bash
 # Check if ingress controller is running
 kubectl get pods -n ingress-nginx
@@ -1311,7 +1330,7 @@ rm -f ~/.kube/config.backup
 ### Default Settings
 
 - **Environment:** Development
-- **Location:** East US
+- **Location:** France Central
 - **Node Count:** 2 (auto-scaling: 1-5)
 - **VM Size:** Standard_D2s_v3
 - **ArgoCD:** LoadBalancer with insecure mode (demo)
@@ -1346,6 +1365,7 @@ For issues or questions:
 **CRITICAL ERROR TO AVOID:** Do **NOT** use the kubelet identity for the SecretProviderClass. This is a common mistake that causes "403 Forbidden" errors.
 
 #### **❌ WRONG - Don't Use This Command:**
+
 ```bash
 # This gets the kubelet identity - WRONG for SecretProviderClass
 az aks show --resource-group $(terraform output -raw resource_group_name) \
@@ -1354,6 +1374,7 @@ az aks show --resource-group $(terraform output -raw resource_group_name) \
 ```
 
 #### **✅ CORRECT - Use This Command:**
+
 ```bash
 # This gets the Key Vault Secrets Provider identity - CORRECT for SecretProviderClass
 az aks show --resource-group $(terraform output -raw resource_group_name) \
@@ -1362,8 +1383,9 @@ az aks show --resource-group $(terraform output -raw resource_group_name) \
 ```
 
 #### **Why This Matters:**
+
 - **Key Vault Secrets Provider Identity**: Dedicated identity specifically for accessing Key Vault secrets
-- **Kubelet Identity**: Node pool identity for general cluster operations  
+- **Kubelet Identity**: Node pool identity for general cluster operations
 - **Using the wrong identity** results in access denied errors even with proper access policies
 
 ---

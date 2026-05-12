@@ -5,7 +5,7 @@ variable "prefix" {
 
 resource "azurerm_resource_group" "rg" {
   name = "${var.prefix}-rg"
-  location = "canadacentral"
+  location = "France Central"
 }
 
 resource "azurerm_service_plan" "asp" {

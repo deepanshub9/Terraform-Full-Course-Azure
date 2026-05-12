@@ -7,13 +7,13 @@ variable "environment" {
 variable "location" {
   description = "Azure region for resources"
   type        = string
-  default     = "eastus3"
+  default     = "France Central"
 }
 
 variable "secondary_location" {
   description = "Secondary Azure region for disaster recovery"
   type        = string
-  default     = "centralus"
+  default     = "France Central"
 }
 
 variable "resource_group_name" {

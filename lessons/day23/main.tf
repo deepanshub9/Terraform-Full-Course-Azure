@@ -1,7 +1,7 @@
 # Resource Group
 resource "azurerm_resource_group" "app_rg" {
   name     = "provisioner-demo-rg"
-  location = "East US"
+  location = "France Central"
 }
 
 # Virtual Network
@@ -112,24 +112,24 @@ resource "azurerm_linux_virtual_machine" "demo_vm" {
   }
 
   provisioner "remote-exec" {
-    inline = [   
+    inline = [
       "sudo apt-get update",
       "sudo apt-get install -y nginx",
-      
+
       # Create a sample welcome page
       "echo '<html><body><h1>#28daysofAZTerraform is Awesome!</h1></body></html>' | sudo tee /var/www/html/index.html",
-      
+
       # Ensure nginx is running
       "sudo systemctl start nginx",
-      "sudo systemctl enable nginx" ]
+    "sudo systemctl enable nginx"]
 
-      connection {
-        type = "ssh"
-        user = "azureuser"
-        private_key = file("~/.ssh/id_rsa")
-        host = azurerm_public_ip.vm_ip.ip_address
-      }
-    
+    connection {
+      type        = "ssh"
+      user        = "azureuser"
+      private_key = file("~/.ssh/id_rsa")
+      host        = azurerm_public_ip.vm_ip.ip_address
+    }
+
   }
 
 

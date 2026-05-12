@@ -1,6 +1,6 @@
 # Environment Configuration
 environment             = "dev"                # Environment name (dev/test/prod)
-location                = "eastus"             # Azure region for resource deployment
+location                = "France Central"     # Azure region for resource deployment
 resource_group_name     = "aks-gitops-rg"      # Azure resource group name
 kubernetes_cluster_name = "aks-gitops-cluster" # AKS cluster name
 node_count              = 2                    # Number of worker nodes in AKS cluster

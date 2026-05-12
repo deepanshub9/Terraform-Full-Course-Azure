@@ -1,5 +1,5 @@
 variable "email" {
-    type = string
-    default = ""
-  
+  type    = string
+  default = ""
+
 }

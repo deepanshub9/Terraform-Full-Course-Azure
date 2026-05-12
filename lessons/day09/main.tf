@@ -1,7 +1,7 @@
-resource "azurerm_resource_group" "example" {
+resource "azurerm_resource_group" "learning_rg" {
 
-  
-  name     = "${var.environment}-resources"
+
+  name     = "${var.environment}-learning-rg"
   location = var.location
   tags = {
     environment = var.environment
@@ -9,25 +9,23 @@ resource "azurerm_resource_group" "example" {
 
   lifecycle {
     create_before_destroy = true
-    prevent_destroy = false
+    prevent_destroy       = false
     # ignore_changes = [ tags ]
     precondition {
-      condition = contains(var.allowed_locations, var.location)
+      condition     = contains(var.allowed_locations, var.location)
       error_message = "Please enter a valid location!"
     }
-    
+
   }
 
 }
 
-resource "azurerm_storage_account" "example" {
-   
-  #count = length(var.storage_account_name)
-  for_each = var.storage_account_name
-  #name = var.storage_account_name(count.index)
+resource "azurerm_storage_account" "learning_sa" {
+
+  for_each                 = var.storage_account_name
   name                     = each.value
-  resource_group_name      = azurerm_resource_group.example.name
-  location                 = azurerm_resource_group.example.location
+  resource_group_name      = azurerm_resource_group.learning_rg.name
+  location                 = azurerm_resource_group.learning_rg.location
   account_tier             = "Standard"
   account_replication_type = "GRS"
 
@@ -35,9 +33,9 @@ resource "azurerm_storage_account" "example" {
     environment = var.environment
   }
 
-   lifecycle {
+  lifecycle {
     create_before_destroy = true
-    ignore_changes = [ account_replication_type ]
-    replace_triggered_by = [ azurerm_resource_group.example.id ]
+    ignore_changes        = [account_replication_type]
+    replace_triggered_by  = [azurerm_resource_group.learning_rg.id]
   }
 }

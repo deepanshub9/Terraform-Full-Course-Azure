@@ -6,7 +6,7 @@ variable "rgname" {
 
 variable "location" {
   type    = string
-  default = "canadacentral"
+  default = "France Central"
 }
 
 variable "service_principal_name" {
@@ -22,8 +22,8 @@ variable "SUB_ID" {
 }
 
 variable "node_pool_name" {
-  
+
 }
 variable "cluster_name" {
-  
+
 }

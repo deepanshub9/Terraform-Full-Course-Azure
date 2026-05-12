@@ -2,8 +2,8 @@
 
 # General settings
 environment         = "prod"
-location            = "centralus"
-secondary_location  = "canadacentral"
+location            = "France Central"
+secondary_location  = "France Central"
 resource_group_name = "three-tier-app"
 
 # Network settings

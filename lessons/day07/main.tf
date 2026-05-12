@@ -1,8 +1,10 @@
+// Build the resource group for the networking and VM practice.
 resource "azurerm_resource_group" "learning_rg" {
   name     = "${var.environment}-learning-rg"
   location = var.allowed_locations[0]
 }
 
+// Create the virtual network for the VM lab.
 resource "azurerm_virtual_network" "learning_vnet" {
   name                = "${var.environment}-learning-vnet"
   address_space       = [element(var.network_config, 0)]
@@ -10,6 +12,7 @@ resource "azurerm_virtual_network" "learning_vnet" {
   resource_group_name = azurerm_resource_group.learning_rg.name
 }
 
+// Create the subnet that the virtual machine will use.
 resource "azurerm_subnet" "learning_subnet" {
   name                 = "${var.environment}-learning-subnet"
   resource_group_name  = azurerm_resource_group.learning_rg.name
@@ -17,6 +20,7 @@ resource "azurerm_subnet" "learning_subnet" {
   address_prefixes     = ["${element(var.network_config, 1)}/${element(var.network_config, 2)}"]
 }
 
+// Create the network interface for the VM.
 resource "azurerm_network_interface" "learning_nic" {
   name                = "${var.environment}-learning-nic"
   location            = azurerm_resource_group.learning_rg.location
@@ -29,6 +33,7 @@ resource "azurerm_network_interface" "learning_nic" {
   }
 }
 
+// Create the virtual machine that uses the typed variables.
 resource "azurerm_virtual_machine" "learning_vm" {
   name                  = "${var.environment}-learning-vm"
   location              = azurerm_resource_group.learning_rg.location

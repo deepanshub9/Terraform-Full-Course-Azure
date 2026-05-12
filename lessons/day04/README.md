@@ -1,10 +1,14 @@
-# Day04 - Terraform State File
+﻿# Day04 - Terraform State File
+
+## Simple overview
+
+Learn how Terraform state and remote backends help Terraform remember and store what it creates.
 
 ## How Terraform update Infrastructure
 
 - Goal is to keep the actual state same as the desired state
 - The actual state resides inside a file called statefile
-  
+
 <img width="618" alt="image" src="https://github.com/user-attachments/assets/66582b79-fd7f-41b7-b287-974319bef8d8" />
 
 ## State file best practices

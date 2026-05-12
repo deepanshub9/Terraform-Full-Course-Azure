@@ -1,5 +1,4 @@
-
-
+// Create the VM scale set that runs the sample workload.
 resource "azurerm_orchestrated_virtual_machine_scale_set" "vmss_terraform_tutorial" {
   name                        = "vmss-terraform"
   resource_group_name         = azurerm_resource_group.rg.name

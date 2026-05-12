@@ -1,3 +1,4 @@
+# Create the main resource group for the AKS lesson.
 resource "azurerm_resource_group" "rg1" {
   name     = var.rgname
   location = var.location
@@ -12,6 +13,7 @@ module "ServicePrincipal" {
   ]
 }
 
+# Give the service principal Contributor access to the subscription.
 resource "azurerm_role_assignment" "rolespn" {
 
   scope                = "/subscriptions/${var.SUB_ID}"
@@ -37,6 +39,7 @@ module "keyvault" {
   ]
 }
 
+# Store the service principal credentials in Key Vault.
 resource "azurerm_key_vault_secret" "example" {
   name         = module.ServicePrincipal.client_id
   value        = module.ServicePrincipal.client_secret
@@ -62,6 +65,7 @@ module "aks" {
 
 }
 
+# Write the AKS kubeconfig to a local file.
 resource "local_file" "kubeconfig" {
   depends_on = [module.aks]
   filename   = "./kubeconfig"

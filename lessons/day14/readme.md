@@ -1,4 +1,8 @@
-# Advanced Azure Infrastructure with Terraform - Hands-on Assignment
+﻿# Advanced Azure Infrastructure with Terraform - Hands-on Assignment
+
+## Simple overview
+
+Build a VM scale set with autoscaling and networking in Azure.
 
 ## Assignment Overview
 

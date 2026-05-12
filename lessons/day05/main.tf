@@ -34,11 +34,14 @@ locals {
     stage       = "alpha"
   }
 }
+
+# Create the resource group for the variable and tag example.
 resource "azurerm_resource_group" "learning_rg" {
   name     = "dev-learning-rg"
   location = "France Central"
 }
 
+# Create the storage account that uses the shared tags.
 resource "azurerm_storage_account" "learning_sa" {
 
   name                     = "devlearningsa"

@@ -1,6 +1,8 @@
+// Create a random name suffix for the load balancer DNS label.
 resource "random_pet" "lb_hostname" {
 }
 
+// Create the resource group for the VMSS and load balancer demo.
 resource "azurerm_resource_group" "rg" {
   name     = "day14-rg"
   location = "France Central"
@@ -8,6 +10,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 
+// Create the virtual network that hosts the VM scale set.
 resource "azurerm_virtual_network" "test" {
   name                = "terraformvnet"
   address_space       = ["10.0.0.0/16"]
@@ -15,6 +18,7 @@ resource "azurerm_virtual_network" "test" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
+// Create the subnet used by the VM scale set.
 resource "azurerm_subnet" "subnet" {
   name                 = "subnet"
   resource_group_name  = azurerm_resource_group.rg.name
@@ -24,6 +28,7 @@ resource "azurerm_subnet" "subnet" {
 
 # network security group for the subnet with a rule to allow http, https and ssh traffic
 resource "azurerm_network_security_group" "myNSG" {
+  // Create the NSG that allows web and SSH traffic to the subnet.
   name                = "myNSG"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -65,6 +70,7 @@ resource "azurerm_network_security_group" "myNSG" {
   }
 }
 
+// Connect the subnet to the NSG.
 resource "azurerm_subnet_network_security_group_association" "myNSG" {
   subnet_id                 = azurerm_subnet.subnet.id
   network_security_group_id = azurerm_network_security_group.myNSG.id
@@ -72,6 +78,7 @@ resource "azurerm_subnet_network_security_group_association" "myNSG" {
 
 
 # A public IP address for the load balancer
+// Create the public IP that the load balancer will use.
 resource "azurerm_public_ip" "example" {
   name                = "lb-publicIP"
   location            = azurerm_resource_group.rg.location
@@ -83,6 +90,7 @@ resource "azurerm_public_ip" "example" {
 }
 
 # A load balancer with a frontend IP configuration and a backend address pool
+// Create the load balancer that fronts the VM scale set.
 resource "azurerm_lb" "example" {
   name                = "myLB"
   location            = azurerm_resource_group.rg.location

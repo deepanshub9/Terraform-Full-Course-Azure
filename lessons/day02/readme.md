@@ -1,4 +1,8 @@
-# Day02 - Terraform Providers
+﻿# Day02 - Terraform Providers
+
+## Simple overview
+Understand Terraform providers, especially how Terraform talks to Azure through the AzureRM provider and why provider versions matter.
+
 
 ## What is a terraform provider?
 
@@ -17,5 +21,6 @@
 ## Version constraints and operators
 
 ![image](https://github.com/user-attachments/assets/9bccafe8-78a9-4def-9b7b-e745b207792d)
+
 
 

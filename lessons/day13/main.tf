@@ -23,6 +23,7 @@ resource "azurerm_resource_group" "learning_rg" {
 }
 
 
+// Create the network interface that connects the VM to the shared subnet.
 resource "azurerm_network_interface" "learning_nic" {
   name                = "${var.prefix}-learning-nic"
   location            = azurerm_resource_group.learning_rg.location
@@ -35,6 +36,7 @@ resource "azurerm_network_interface" "learning_nic" {
   }
 }
 
+// Create the virtual machine that uses the shared network resources.
 resource "azurerm_virtual_machine" "learning_vm" {
   name                  = "${var.prefix}-learning-vm"
   location              = azurerm_resource_group.learning_rg.location

@@ -1,4 +1,8 @@
-## Task for Day05
+﻿## Task for Day05
+
+## Simple overview
+
+Use variables and local values to make the Day03 setup reusable and easier to manage.
 
 - Using the files created in the previous task (day04), update them to use variables below
 - Add an input variable named "environment" and set the default value to "staging"

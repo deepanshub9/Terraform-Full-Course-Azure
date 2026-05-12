@@ -1,5 +1,6 @@
 data "azurerm_client_config" "current" {}
 
+# Create the Key Vault used by the AKS environments.
 resource "azurerm_key_vault" "kv" {
   name                        = var.keyvault_name
   location                    = var.location

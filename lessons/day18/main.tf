@@ -1,8 +1,10 @@
+// Create the resource group for the function app example.
 resource "azurerm_resource_group" "rg" {
   name     = "day18-rg"
   location = "France Central"
 }
 
+// Create the storage account used by the function app.
 resource "azurerm_storage_account" "sa" {
   name                     = "techtutorialswith123"
   resource_group_name      = azurerm_resource_group.rg.name
@@ -11,6 +13,7 @@ resource "azurerm_storage_account" "sa" {
   account_replication_type = "LRS"
 }
 
+// Create the service plan for the Azure Function.
 resource "azurerm_service_plan" "example" {
   name                = "dev-func-app-service-plan"
   resource_group_name = azurerm_resource_group.rg.name
@@ -19,6 +22,7 @@ resource "azurerm_service_plan" "example" {
   sku_name            = "B1"
 }
 
+// Create the Linux function app.
 resource "azurerm_linux_function_app" "example" {
   name                       = "dev-function-qr"
   resource_group_name        = azurerm_resource_group.rg.name

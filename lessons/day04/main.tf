@@ -21,11 +21,13 @@ provider "azurerm" {
 
 }
 
+# Create the same resource group again while learning state handling.
 resource "azurerm_resource_group" "learning_rg" {
   name     = "dev-learning-rg"
   location = "France Central"
 }
 
+# Create the storage account that Terraform will track in state.
 resource "azurerm_storage_account" "learning_sa" {
 
   name                     = "devlearningsa"

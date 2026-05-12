@@ -9,17 +9,27 @@ terraform {
 }
 
 provider "azurerm" {
+  subscription_id = var.subscription_id
+
   features {
 
   }
 
 }
 
+variable "subscription_id" {
+  description = "Azure subscription ID used by the AzureRM provider."
+  type        = string
+  sensitive   = true
+}
+
+# Create the resource group for the first Azure example.
 resource "azurerm_resource_group" "learning_rg" {
   name     = "dev-learning-rg"
   location = "France Central"
 }
 
+# Create the storage account that goes with the resource group.
 resource "azurerm_storage_account" "learning_sa" {
 
   name                     = "devlearningsa"

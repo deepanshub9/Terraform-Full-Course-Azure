@@ -1,23 +1,31 @@
-# Task for Day03
+﻿# Task for Day03
+
+## Simple overview
+
+Create your first Azure resource group and storage account with Terraform.
 
 - Get yourself familiarized with Terraform documentation
-  
+
 `https://registry.terraform.io/providers/hashicorp/azurerm/latest`
+
 - Create the below Azure resources using azurerm Terraform provider
-    - Resource Group
-    - Storage account
+  - Resource Group
+  - Storage account
 
 ## Commands used in the demo
 
 - Log in to Azure
+
 ```
 - az login
 ```
 
-- Create Service Principal 
+- Create Service Principal
+
 ```
 az ad sp create-for-rbac -n az-demo --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID"
 ```
+
 Note: Use the values generated here to export the variables in the next step
 
 - Set env vars so that the service principal is used for authentication

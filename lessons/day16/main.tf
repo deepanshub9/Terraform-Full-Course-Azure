@@ -7,6 +7,7 @@ locals {
   users       = csvdecode(file("users.csv"))
 }
 
+// Create Azure AD users from the CSV file.
 resource "azuread_user" "users" {
   for_each = { for user in local.users : user.first_name => user }
 

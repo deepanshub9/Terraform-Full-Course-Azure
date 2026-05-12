@@ -1,3 +1,4 @@
+// Create the first VM network interface.
 resource "azurerm_network_interface" "main1" {
   name                = "peer1-nic"
   location            = azurerm_resource_group.rg.location
@@ -10,6 +11,7 @@ resource "azurerm_network_interface" "main1" {
   }
 }
 
+// Create the first VM used for peering tests.
 resource "azurerm_virtual_machine" "main1" {
   name                  = "peer1-vm"
   location              = azurerm_resource_group.rg.location
@@ -49,6 +51,7 @@ resource "azurerm_virtual_machine" "main1" {
 }
 
 
+// Create the second VM network interface.
 resource "azurerm_network_interface" "main2" {
   name                = "peer2-nic"
   location            = azurerm_resource_group.rg.location
@@ -61,6 +64,7 @@ resource "azurerm_network_interface" "main2" {
   }
 }
 
+// Create the second VM used for peering tests.
 resource "azurerm_virtual_machine" "main2" {
   name                  = "peer2-vm"
   location              = azurerm_resource_group.rg.location

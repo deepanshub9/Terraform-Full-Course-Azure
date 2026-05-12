@@ -1,9 +1,11 @@
+// Create the resource group for the peering example.
 resource "azurerm_resource_group" "rg" {
   name     = "day15-rg"
   location = "France Central"
 }
 
 
+// Create the first virtual network.
 resource "azurerm_virtual_network" "vnet1" {
   name                = "peer1-vnet"
   location            = azurerm_resource_group.rg.location
@@ -12,6 +14,7 @@ resource "azurerm_virtual_network" "vnet1" {
 
 }
 
+// Create the first subnet.
 resource "azurerm_subnet" "sn1" {
   name                 = "peer1-sn"
   resource_group_name  = azurerm_resource_group.rg.name
@@ -20,6 +23,7 @@ resource "azurerm_subnet" "sn1" {
 
 }
 
+// Create the second virtual network.
 resource "azurerm_virtual_network" "vnet2" {
   name                = "peer2-vnet"
   location            = azurerm_resource_group.rg.location
@@ -28,6 +32,7 @@ resource "azurerm_virtual_network" "vnet2" {
 
 }
 
+// Create the second subnet.
 resource "azurerm_subnet" "sn2" {
   name                 = "peer2-sn"
   resource_group_name  = azurerm_resource_group.rg.name

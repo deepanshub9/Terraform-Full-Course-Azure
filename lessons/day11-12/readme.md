@@ -1,4 +1,8 @@
-# Terraform Functions Learning Guide - Assignments
+﻿# Terraform Functions Learning Guide - Assignments
+
+## Simple overview
+
+Practice Terraform built-in functions for names, tags, validation, lists, sets, dates, and file handling.
 
 ## Console Commands
 

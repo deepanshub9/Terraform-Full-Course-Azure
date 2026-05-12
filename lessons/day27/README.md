@@ -1,4 +1,8 @@
-# CloudOps Goal Tracker - Three-Tier Architecture
+﻿# CloudOps Goal Tracker - Three-Tier Architecture
+
+## Simple overview
+
+Build a three-tier app with frontend, backend, database, and shared infrastructure.
 
 This project demonstrates a modern three-tier architecture:
 
@@ -9,11 +13,11 @@ This project demonstrates a modern three-tier architecture:
 ## Architecture Overview
 
 ```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│     Frontend    │     │     Backend     │     │    Database     │
-│    (Node.js)    │────▶│      (Go)       │────▶│   (PostgreSQL)  │
-│   Port: 3000    │     │   Port: 8080    │     │    Port: 5432   │
-└─────────────────┘     └─────────────────┘     └─────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚     Frontend    â”‚     â”‚     Backend     â”‚     â”‚    Database     â”‚
+â”‚    (Node.js)    â”‚â”€â”€â”€â”€â–¶â”‚      (Go)       â”‚â”€â”€â”€â”€â–¶â”‚   (PostgreSQL)  â”‚
+â”‚   Port: 3000    â”‚     â”‚   Port: 8080    â”‚     â”‚    Port: 5432   â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 
 ```
 
@@ -232,19 +236,19 @@ Before deploying infrastructure with Terraform, you need to create a service pri
 
 ```
 infra/
-├── main.tf                 # Root configuration file
-├── variables.tf            # Input variables for the root module
-├── outputs.tf              # Output values after deployment
-├── providers.tf            # Provider configurations
-├── backend.tf              # Remote state configuration
-├── modules/                # All modular components
-│   ├── networking/         # VNet, subnets, NSGs, Bastion
-│   ├── compute/            # VM Scale Sets and load balancers
-│   ├── database/           # PostgreSQL Flexible Server
-│   ├── dns/                # Private DNS Zones
-│   └── keyvault/           # Azure Key Vault
-└── environments/           # Environment-specific configurations
-    └── prod/               # Production environment
+â”œâ”€â”€ main.tf                 # Root configuration file
+â”œâ”€â”€ variables.tf            # Input variables for the root module
+â”œâ”€â”€ outputs.tf              # Output values after deployment
+â”œâ”€â”€ providers.tf            # Provider configurations
+â”œâ”€â”€ backend.tf              # Remote state configuration
+â”œâ”€â”€ modules/                # All modular components
+â”‚   â”œâ”€â”€ networking/         # VNet, subnets, NSGs, Bastion
+â”‚   â”œâ”€â”€ compute/            # VM Scale Sets and load balancers
+â”‚   â”œâ”€â”€ database/           # PostgreSQL Flexible Server
+â”‚   â”œâ”€â”€ dns/                # Private DNS Zones
+â”‚   â””â”€â”€ keyvault/           # Azure Key Vault
+â””â”€â”€ environments/           # Environment-specific configurations
+    â””â”€â”€ prod/               # Production environment
 ```
 
 ## Deployment Instructions
